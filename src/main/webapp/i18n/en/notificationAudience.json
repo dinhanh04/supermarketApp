@@ -1,0 +1,10 @@
+{
+  "supermarketApp": {
+    "NotificationAudience": {
+      "null": "",
+      "ALL": "ALL",
+      "CUSTOMER": "CUSTOMER",
+      "STAFF": "STAFF"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (store(); as storeRef) {
+      <div>
+        <h2 data-cy="storeDetailsHeading"><span jhiTranslate="supermarketApp.store.detail.title">Store</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ storeRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.code">Code</span></dt>
+          <dd>
+            <span>{{ storeRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.name">Name</span></dt>
+          <dd>
+            <span>{{ storeRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.description">Description</span></dt>
+          <dd>
+            <span>{{ storeRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.phone">Phone</span></dt>
+          <dd>
+            <span>{{ storeRef.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.email">Email</span></dt>
+          <dd>
+            <span>{{ storeRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.address">Address</span></dt>
+          <dd>
+            <span>{{ storeRef.address }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.city">City</span></dt>
+          <dd>
+            <span>{{ storeRef.city }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.country">Country</span></dt>
+          <dd>
+            <span>{{ storeRef.country }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.openingHours">Opening Hours</span></dt>
+          <dd>
+            <span>{{ storeRef.openingHours }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.createdAt">Created At</span></dt>
+          <dd>
+            <span>{{ storeRef.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.store.updatedAt">Updated At</span></dt>
+          <dd>
+            <span>{{ storeRef.updatedAt | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/store', storeRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

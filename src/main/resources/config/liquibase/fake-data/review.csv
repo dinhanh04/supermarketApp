@@ -1,0 +1,11 @@
+id;rating;title;content;created_at;visible;product_id;customer_id
+1;5;zowie for sandy;../fake-data/blob/hipster.txt;2025-09-09T07:27:34;false;1;1
+2;4;minority carelessly;../fake-data/blob/hipster.txt;2025-09-08T17:32:10;true;2;2
+3;1;voluntarily;../fake-data/blob/hipster.txt;2025-09-08T10:13:20;true;3;1
+4;3;spirit;../fake-data/blob/hipster.txt;2025-09-09T03:35:07;false;4;1
+5;1;buzzing than notwithstanding;../fake-data/blob/hipster.txt;2025-09-08T17:33:36;true;5;2
+6;3;whereas elegantly not;../fake-data/blob/hipster.txt;2025-09-08T23:01:34;false;6;1
+7;1;midst;../fake-data/blob/hipster.txt;2025-09-08T17:35:48;true;7;1
+8;2;same gulp;../fake-data/blob/hipster.txt;2025-09-08T11:03:17;false;8;2
+9;4;solicit cod indeed;../fake-data/blob/hipster.txt;2025-09-08T18:23:34;false;9;2
+10;1;grubby whereas upward;../fake-data/blob/hipster.txt;2025-09-08T19:28:31;false;10;2

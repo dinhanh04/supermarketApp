@@ -1,0 +1,115 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-supplier-heading" data-cy="SupplierCreateUpdateHeading" jhiTranslate="supermarketApp.supplier.home.createOrEditLabel">
+        Create or edit a Supplier
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="supermarketApp.supplier.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let nameRef = editForm.get('name')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="supermarketApp.supplier.name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+            <div>
+              @if (editForm.get('name')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contactName" jhiTranslate="supermarketApp.supplier.contactName">Contact Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactName"
+            id="field_contactName"
+            data-cy="contactName"
+            formControlName="contactName"
+          />
+        </div>
+
+        @let contactEmailRef = editForm.get('contactEmail')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_contactEmail" jhiTranslate="supermarketApp.supplier.contactEmail">Contact Email</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactEmail"
+            id="field_contactEmail"
+            data-cy="contactEmail"
+            formControlName="contactEmail"
+          />
+          @if (contactEmailRef.invalid && (contactEmailRef.dirty || contactEmailRef.touched)) {
+            <div>
+              @if (editForm.get('contactEmail')?.errors?.pattern) {
+                <small
+                  class="form-text text-danger"
+                  jhiTranslate="entity.validation.pattern"
+                  [translateValues]="{ pattern: 'Contact Email' }"
+                  >This field should follow pattern for Contact Email.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contactPhone" jhiTranslate="supermarketApp.supplier.contactPhone">Contact Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            name="contactPhone"
+            id="field_contactPhone"
+            data-cy="contactPhone"
+            formControlName="contactPhone"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_taxCode" jhiTranslate="supermarketApp.supplier.taxCode">Tax Code</label>
+          <input type="text" class="form-control" name="taxCode" id="field_taxCode" data-cy="taxCode" formControlName="taxCode" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_addressText" jhiTranslate="supermarketApp.supplier.addressText">Address Text</label>
+          <input
+            type="text"
+            class="form-control"
+            name="addressText"
+            id="field_addressText"
+            data-cy="addressText"
+            formControlName="addressText"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

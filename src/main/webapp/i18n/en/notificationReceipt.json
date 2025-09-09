@@ -1,0 +1,28 @@
+{
+  "supermarketApp": {
+    "notificationReceipt": {
+      "home": {
+        "title": "Notification Receipts",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Notification Receipt",
+        "createOrEditLabel": "Create or edit a Notification Receipt",
+        "notFound": "No Notification Receipts found"
+      },
+      "created": "A new Notification Receipt is created with identifier {{ param }}",
+      "updated": "A Notification Receipt is updated with identifier {{ param }}",
+      "deleted": "A Notification Receipt is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Notification Receipt {{ id }}?"
+      },
+      "detail": {
+        "title": "Notification Receipt"
+      },
+      "id": "ID",
+      "isRead": "Is Read",
+      "deliveredAt": "Delivered At",
+      "readAt": "Read At",
+      "notification": "Notification",
+      "customer": "Customer"
+    }
+  }
+}

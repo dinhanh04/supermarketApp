@@ -1,0 +1,88 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (customerOrder(); as customerOrderRef) {
+      <div>
+        <h2 data-cy="customerOrderDetailsHeading"><span jhiTranslate="supermarketApp.customerOrder.detail.title">Customer Order</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ customerOrderRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.code">Code</span></dt>
+          <dd>
+            <span>{{ customerOrderRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.orderDate">Order Date</span></dt>
+          <dd>
+            <span>{{ customerOrderRef.orderDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.OrderStatus.' + (customerOrderRef.status ?? 'null')">{{
+              {
+                null: '',
+                PENDING: 'PENDING',
+                PAID: 'PAID',
+                SHIPPED: 'SHIPPED',
+                COMPLETED: 'COMPLETED',
+                CANCELED: 'CANCELED',
+                REFUNDED: 'REFUNDED',
+              }[customerOrderRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.totalAmount">Total Amount</span></dt>
+          <dd>
+            <span>{{ customerOrderRef.totalAmount }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.paymentMethod">Payment Method</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.PaymentMethod.' + (customerOrderRef.paymentMethod ?? 'null')">{{
+              { null: '', COD: 'COD', BANK_TRANSFER: 'BANK_TRANSFER', CREDIT_CARD: 'CREDIT_CARD', E_WALLET: 'E_WALLET' }[
+                customerOrderRef.paymentMethod ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.shippingAddress">Shipping Address</span></dt>
+          <dd>
+            <span>{{ customerOrderRef.shippingAddress }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.note">Note</span></dt>
+          <dd>
+            <span>{{ customerOrderRef.note }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.customer">Customer</span></dt>
+          <dd>
+            @if (customerOrder()!.customer) {
+              <div>
+                <a [routerLink]="['/customer', customerOrder()!.customer?.id, 'view']">{{ customerOrderRef.customer?.code }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.salesBy">Sales By</span></dt>
+          <dd>
+            @if (customerOrder()!.salesBy) {
+              <div>
+                <a [routerLink]="['/employee', customerOrder()!.salesBy?.id, 'view']">{{ customerOrderRef.salesBy?.fullName }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/customer-order', customerOrderRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

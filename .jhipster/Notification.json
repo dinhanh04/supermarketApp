@@ -1,0 +1,48 @@
+{
+  "annotations": {
+    "changelogDate": "20250909073606"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "audience",
+      "fieldType": "NotificationAudience",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ALL,CUSTOMER,STAFF"
+    },
+    {
+      "fieldName": "channel",
+      "fieldType": "NotificationChannel",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IN_APP,EMAIL,SMS"
+    },
+    {
+      "fieldName": "sentAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Notification",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "notificationReceipt",
+      "otherEntityRelationshipName": "notification",
+      "relationshipName": "receipts",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

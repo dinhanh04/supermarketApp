@@ -1,0 +1,97 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (product(); as productRef) {
+      <div>
+        <h2 data-cy="productDetailsHeading"><span jhiTranslate="supermarketApp.product.detail.title">Product</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ productRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.sku">Sku</span></dt>
+          <dd>
+            <span>{{ productRef.sku }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.name">Name</span></dt>
+          <dd>
+            <span>{{ productRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.description">Description</span></dt>
+          <dd>
+            <span>{{ productRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.price">Price</span></dt>
+          <dd>
+            <span>{{ productRef.price }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.cost">Cost</span></dt>
+          <dd>
+            <span>{{ productRef.cost }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.stock">Stock</span></dt>
+          <dd>
+            <span>{{ productRef.stock }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.imageUrl">Image Url</span></dt>
+          <dd>
+            <span>{{ productRef.imageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.ProductStatus.' + (productRef.status ?? 'null')">{{
+              { null: '', ACTIVE: 'ACTIVE', OUT_OF_STOCK: 'OUT_OF_STOCK', INACTIVE: 'INACTIVE' }[productRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.createdAt">Created At</span></dt>
+          <dd>
+            <span>{{ productRef.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.updatedAt">Updated At</span></dt>
+          <dd>
+            <span>{{ productRef.updatedAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.category">Category</span></dt>
+          <dd>
+            @if (product()!.category) {
+              <div>
+                <a [routerLink]="['/category', product()!.category?.id, 'view']">{{ productRef.category?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.suppliedBy">Supplied By</span></dt>
+          <dd>
+            @if (product()!.suppliedBy) {
+              <div>
+                <a [routerLink]="['/supplier', product()!.suppliedBy?.id, 'view']">{{ productRef.suppliedBy?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.product.promotions">Promotions</span></dt>
+          <dd>
+            @for (promotions of productRef.promotions; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/promotion', promotions.id, 'view']">{{ promotions?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/product', productRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

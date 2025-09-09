@@ -1,0 +1,78 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (customer(); as customerRef) {
+      <div>
+        <h2 data-cy="customerDetailsHeading"><span jhiTranslate="supermarketApp.customer.detail.title">Customer</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ customerRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.code">Code</span></dt>
+          <dd>
+            <span>{{ customerRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.firstName">First Name</span></dt>
+          <dd>
+            <span>{{ customerRef.firstName }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.lastName">Last Name</span></dt>
+          <dd>
+            <span>{{ customerRef.lastName }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.email">Email</span></dt>
+          <dd>
+            <span>{{ customerRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.phone">Phone</span></dt>
+          <dd>
+            <span>{{ customerRef.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.dob">Dob</span></dt>
+          <dd>
+            <span>{{ customerRef.dob | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.gender">Gender</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.Gender.' + (customerRef.gender ?? 'null')">{{
+              { null: '', MALE: 'MALE', FEMALE: 'FEMALE', OTHER: 'OTHER' }[customerRef.gender ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.CustomerStatus.' + (customerRef.status ?? 'null')">{{
+              { null: '', ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE', SUSPENDED: 'SUSPENDED' }[customerRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.createdAt">Created At</span></dt>
+          <dd>
+            <span>{{ customerRef.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.updatedAt">Updated At</span></dt>
+          <dd>
+            <span>{{ customerRef.updatedAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.customer.user">User</span></dt>
+          <dd>
+            <span>{{ customerRef.user?.login }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/customer', customerRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

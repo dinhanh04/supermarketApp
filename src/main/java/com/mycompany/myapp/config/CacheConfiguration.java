@@ -50,6 +50,26 @@ public class CacheConfiguration {
             createCache(cm, com.mycompany.myapp.domain.User.class.getName());
             createCache(cm, com.mycompany.myapp.domain.Authority.class.getName());
             createCache(cm, com.mycompany.myapp.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.mycompany.myapp.domain.Customer.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Customer.class.getName() + ".addresses");
+            createCache(cm, com.mycompany.myapp.domain.Customer.class.getName() + ".notifications");
+            createCache(cm, com.mycompany.myapp.domain.Address.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Department.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Department.class.getName() + ".employees");
+            createCache(cm, com.mycompany.myapp.domain.Employee.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Supplier.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Category.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Product.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Product.class.getName() + ".promotions");
+            createCache(cm, com.mycompany.myapp.domain.Promotion.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Promotion.class.getName() + ".products");
+            createCache(cm, com.mycompany.myapp.domain.CustomerOrder.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.CustomerOrder.class.getName() + ".items");
+            createCache(cm, com.mycompany.myapp.domain.OrderItem.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Review.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Notification.class.getName());
+            createCache(cm, com.mycompany.myapp.domain.Notification.class.getName() + ".receipts");
+            createCache(cm, com.mycompany.myapp.domain.NotificationReceipt.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

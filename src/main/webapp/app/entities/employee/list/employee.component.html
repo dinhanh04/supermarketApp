@@ -1,0 +1,175 @@
+<div>
+  <h2 id="page-heading" data-cy="EmployeeHeading">
+    <span jhiTranslate="supermarketApp.employee.home.title">Employees</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="supermarketApp.employee.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-employee"
+        [routerLink]="['/employee/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="supermarketApp.employee.home.createLabel">Create a new Employee</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (employees().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="supermarketApp.employee.home.notFound">No Employees found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="code">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.code">Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fullName">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.fullName">Full Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="phone">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.phone">Phone</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="role">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.role">Role</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="hiredAt">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.hiredAt">Hired At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.active">Active</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="user.login">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.user">User</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="department.id">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.employee.department">Department</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (employee of employees(); track trackId(employee)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/employee', employee.id, 'view']">{{ employee.id }}</a>
+              </td>
+              <td>{{ employee.code }}</td>
+              <td>{{ employee.fullName }}</td>
+              <td>{{ employee.email }}</td>
+              <td>{{ employee.phone }}</td>
+              <td [jhiTranslate]="'supermarketApp.EmployeeRole.' + (employee.role ?? 'null')">
+                {{ { null: '', STAFF: 'STAFF', MANAGER: 'MANAGER', ADMIN: 'ADMIN' }[employee.role ?? 'null'] }}
+              </td>
+              <td>{{ employee.hiredAt | formatMediumDate }}</td>
+              <td>{{ employee.active }}</td>
+              <td>
+                {{ employee.user?.login }}
+              </td>
+              <td>
+                @if (employee.department) {
+                  <div>
+                    <a [routerLink]="['/department', employee.department.id, 'view']">{{ employee.department.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/employee', employee.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/employee', employee.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(employee)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (employees().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

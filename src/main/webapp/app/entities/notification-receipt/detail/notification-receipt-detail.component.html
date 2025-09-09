@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (notificationReceipt(); as notificationReceiptRef) {
+      <div>
+        <h2 data-cy="notificationReceiptDetailsHeading">
+          <span jhiTranslate="supermarketApp.notificationReceipt.detail.title">Notification Receipt</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ notificationReceiptRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.notificationReceipt.isRead">Is Read</span></dt>
+          <dd>
+            <span>{{ notificationReceiptRef.isRead }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.notificationReceipt.deliveredAt">Delivered At</span></dt>
+          <dd>
+            <span>{{ notificationReceiptRef.deliveredAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.notificationReceipt.readAt">Read At</span></dt>
+          <dd>
+            <span>{{ notificationReceiptRef.readAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.notificationReceipt.notification">Notification</span></dt>
+          <dd>
+            @if (notificationReceipt()!.notification) {
+              <div>
+                <a [routerLink]="['/notification', notificationReceipt()!.notification?.id, 'view']">{{
+                  notificationReceiptRef.notification?.id
+                }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.notificationReceipt.customer">Customer</span></dt>
+          <dd>
+            @if (notificationReceipt()!.customer) {
+              <div>
+                <a [routerLink]="['/customer', notificationReceipt()!.customer?.id, 'view']">{{ notificationReceiptRef.customer?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/notification-receipt', notificationReceiptRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

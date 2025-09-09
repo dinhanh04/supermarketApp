@@ -1,0 +1,10 @@
+{
+  "supermarketApp": {
+    "CustomerStatus": {
+      "null": "",
+      "ACTIVE": "ACTIVE",
+      "INACTIVE": "INACTIVE",
+      "SUSPENDED": "SUSPENDED"
+    }
+  }
+}

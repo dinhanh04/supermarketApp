@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20250909073559"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contactName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "contactEmail",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    },
+    {
+      "fieldName": "contactPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taxCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressText",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Supplier",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

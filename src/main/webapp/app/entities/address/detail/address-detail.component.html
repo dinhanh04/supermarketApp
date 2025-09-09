@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (address(); as addressRef) {
+      <div>
+        <h2 data-cy="addressDetailsHeading"><span jhiTranslate="supermarketApp.address.detail.title">Address</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ addressRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.line1">Line 1</span></dt>
+          <dd>
+            <span>{{ addressRef.line1 }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.line2">Line 2</span></dt>
+          <dd>
+            <span>{{ addressRef.line2 }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.ward">Ward</span></dt>
+          <dd>
+            <span>{{ addressRef.ward }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.district">District</span></dt>
+          <dd>
+            <span>{{ addressRef.district }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.city">City</span></dt>
+          <dd>
+            <span>{{ addressRef.city }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.country">Country</span></dt>
+          <dd>
+            <span>{{ addressRef.country }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.postalCode">Postal Code</span></dt>
+          <dd>
+            <span>{{ addressRef.postalCode }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.address.customer">Customer</span></dt>
+          <dd>
+            @if (address()!.customer) {
+              <div>
+                <a [routerLink]="['/customer', address()!.customer?.id, 'view']">{{ addressRef.customer?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/address', addressRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

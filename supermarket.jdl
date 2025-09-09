@@ -1,0 +1,216 @@
+// ====== DOMAIN FOR RETAIL/SHOP PROJECT ======
+// All entities use DTO (mapstruct) + serviceClass + pagination
+dto * with mapstruct
+service * with serviceClass
+paginate * with pagination
+
+// ---------- ENUMS ----------
+enum Gender { MALE, FEMALE, OTHER }
+enum EmployeeRole { STAFF, MANAGER, ADMIN }
+enum CustomerStatus { ACTIVE, INACTIVE, SUSPENDED }
+enum ProductStatus { ACTIVE, OUT_OF_STOCK, INACTIVE }
+enum PromotionType { PERCENTAGE, FIXED }
+enum OrderStatus { PENDING, PAID, SHIPPED, COMPLETED, CANCELED, REFUNDED }
+enum PaymentMethod { COD, BANK_TRANSFER, CREDIT_CARD, E_WALLET }
+enum NotificationAudience { ALL, CUSTOMER, STAFF }
+enum NotificationChannel { IN_APP, EMAIL, SMS }
+
+// ---------- CORE ENTITIES ----------
+entity Customer {
+  code String required,                // mã khách (có thể hiển thị)
+  firstName String required,
+  lastName String required,
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+  phone String,
+  dob LocalDate,
+  gender Gender,
+  status CustomerStatus required,
+  createdAt Instant,
+  updatedAt Instant
+}
+
+entity Address {
+  line1 String required,
+  line2 String,
+  ward String,
+  district String,
+  city String required,
+  country String required,
+  postalCode String
+}
+
+entity Department {
+  name String required,
+  description String
+}
+
+entity Employee {
+  code String required,
+  fullName String required,
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+  phone String,
+  role EmployeeRole required,
+  hiredAt LocalDate,
+  active Boolean required
+}
+
+entity Supplier {
+  name String required,
+  contactName String,
+  contactEmail String pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+  contactPhone String,
+  taxCode String,
+  addressText String
+}
+
+entity Category {
+  name String required,
+  slug String,
+  description String
+}
+
+entity Product {
+  sku String required,
+  name String required,
+  description TextBlob,
+  price BigDecimal required min(0),
+  cost BigDecimal min(0),
+  stock Integer required min(0),
+  imageUrl String,
+  status ProductStatus required,
+  createdAt Instant,
+  updatedAt Instant
+}
+
+entity Promotion {
+  name String required,
+  type PromotionType required,
+  value BigDecimal required min(0),  // % (0..100) hoặc số tiền
+  startAt Instant required,
+  endAt Instant required,
+  active Boolean required
+}
+
+entity CustomerOrder {
+  code String required,                 // mã đơn
+  orderDate Instant required,
+  status OrderStatus required,
+  totalAmount BigDecimal required min(0),
+  paymentMethod PaymentMethod required,
+  shippingAddress String,
+  note String
+}
+
+entity OrderItem {
+  quantity Integer required min(1),
+  unitPrice BigDecimal required min(0),
+  discount BigDecimal min(0),           // số tiền giảm cho item
+  lineTotal BigDecimal required min(0)
+}
+
+entity Review {
+  rating Integer required min(1) max(5),
+  title String,
+  content TextBlob,
+  createdAt Instant required,
+  visible Boolean required
+}
+
+entity Notification {
+  title String required,
+  content TextBlob required,
+  audience NotificationAudience required,
+  channel NotificationChannel required,
+  sentAt Instant
+}
+
+// join-entity để lưu trạng thái đã đọc/thời điểm gửi cho từng KH
+entity NotificationReceipt {
+  isRead Boolean ,
+  deliveredAt Instant,
+  readAt Instant
+}
+
+// ---------- RELATIONSHIPS ----------
+
+// Liên kết với user hệ thống (JHipster built-in User)
+relationship OneToOne {
+  Customer{user(login) required} to User with builtInEntity,
+  Employee{user(login)} to User with builtInEntity
+}
+
+
+// Địa chỉ của khách (1-n)
+relationship OneToMany {
+  Customer{addresses} to Address{customer required}
+}
+
+// Tổ chức & nhân sự
+relationship OneToMany {
+  Department{employees} to Employee{department required}
+}
+
+// Sản phẩm thuộc danh mục & nhà cung cấp
+relationship ManyToOne {
+  Product{category(name) required} to Category,
+  Product{suppliedBy(name)} to Supplier
+}
+
+// Danh mục cha - con (tuỳ chọn)
+relationship ManyToOne {
+  Category{parent(name)} to Category
+}
+
+// Khuyến mãi áp cho nhiều sản phẩm
+relationship ManyToMany {
+  Promotion{products} to Product{promotions}
+}
+
+// Đơn hàng
+relationship ManyToOne {
+  CustomerOrder{customer(code) required} to Customer,
+  CustomerOrder{salesBy(fullName)} to Employee
+}
+
+relationship OneToMany {
+  CustomerOrder{items} to OrderItem{order required}
+}
+
+relationship ManyToOne {
+  OrderItem{product(sku) required} to Product
+}
+
+// Đánh giá sản phẩm bởi khách
+relationship ManyToOne {
+  Review{product(name) required} to Product,
+  Review{customer(code) required} to Customer
+}
+
+// Thông báo gửi cho khách (qua bảng Receipt)
+relationship OneToMany {
+  Notification{receipts} to NotificationReceipt{notification required},
+  Customer{notifications} to NotificationReceipt{customer required}
+}
+
+// ---------- OPTIONAL PER-ENTITY OPTIONS ----------
+paginate Product with pagination
+paginate CustomerOrder with pagination
+paginate Review with pagination
+
+entity Store {
+  code String required,                // Mã cửa hàng
+  name String required,                // Tên cửa hàng
+  description String,                  // Mô tả ngắn
+  phone String,                        // Số điện thoại liên hệ
+  email String pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),  // Email liên hệ
+  address String required,             // Địa chỉ
+  city String required,                // Thành phố
+  country String required,             // Quốc gia
+  openingHours String,                 // Giờ mở cửa (ví dụ: 08:00-21:00)
+  createdAt Instant,                   // Ngày tạo
+  updatedAt Instant                    // Ngày cập nhật
+}
+
+dto Store with mapstruct
+service Store with serviceClass
+paginate Store with pagination

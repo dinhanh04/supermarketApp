@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (employee(); as employeeRef) {
+      <div>
+        <h2 data-cy="employeeDetailsHeading"><span jhiTranslate="supermarketApp.employee.detail.title">Employee</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ employeeRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.code">Code</span></dt>
+          <dd>
+            <span>{{ employeeRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.fullName">Full Name</span></dt>
+          <dd>
+            <span>{{ employeeRef.fullName }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.email">Email</span></dt>
+          <dd>
+            <span>{{ employeeRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.phone">Phone</span></dt>
+          <dd>
+            <span>{{ employeeRef.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.role">Role</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.EmployeeRole.' + (employeeRef.role ?? 'null')">{{
+              { null: '', STAFF: 'STAFF', MANAGER: 'MANAGER', ADMIN: 'ADMIN' }[employeeRef.role ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.hiredAt">Hired At</span></dt>
+          <dd>
+            <span>{{ employeeRef.hiredAt | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.active">Active</span></dt>
+          <dd>
+            <span>{{ employeeRef.active }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.user">User</span></dt>
+          <dd>
+            <span>{{ employeeRef.user?.login }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.employee.department">Department</span></dt>
+          <dd>
+            @if (employee()!.department) {
+              <div>
+                <a [routerLink]="['/department', employee()!.department?.id, 'view']">{{ employeeRef.department?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/employee', employeeRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

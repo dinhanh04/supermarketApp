@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (review(); as reviewRef) {
+      <div>
+        <h2 data-cy="reviewDetailsHeading"><span jhiTranslate="supermarketApp.review.detail.title">Review</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ reviewRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.rating">Rating</span></dt>
+          <dd>
+            <span>{{ reviewRef.rating }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.title">Title</span></dt>
+          <dd>
+            <span>{{ reviewRef.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.content">Content</span></dt>
+          <dd>
+            <span>{{ reviewRef.content }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.createdAt">Created At</span></dt>
+          <dd>
+            <span>{{ reviewRef.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.visible">Visible</span></dt>
+          <dd>
+            <span>{{ reviewRef.visible }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.product">Product</span></dt>
+          <dd>
+            @if (review()!.product) {
+              <div>
+                <a [routerLink]="['/product', review()!.product?.id, 'view']">{{ reviewRef.product?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.review.customer">Customer</span></dt>
+          <dd>
+            @if (review()!.customer) {
+              <div>
+                <a [routerLink]="['/customer', review()!.customer?.id, 'view']">{{ reviewRef.customer?.code }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/review', reviewRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

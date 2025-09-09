@@ -1,0 +1,169 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-employee-heading" data-cy="EmployeeCreateUpdateHeading" jhiTranslate="supermarketApp.employee.home.createOrEditLabel">
+        Create or edit a Employee
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="supermarketApp.employee.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let codeRef = editForm.get('code')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_code" jhiTranslate="supermarketApp.employee.code">Code</label>
+          <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
+          @if (codeRef.invalid && (codeRef.dirty || codeRef.touched)) {
+            <div>
+              @if (editForm.get('code')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let fullNameRef = editForm.get('fullName')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_fullName" jhiTranslate="supermarketApp.employee.fullName">Full Name</label>
+          <input type="text" class="form-control" name="fullName" id="field_fullName" data-cy="fullName" formControlName="fullName" />
+          @if (fullNameRef.invalid && (fullNameRef.dirty || fullNameRef.touched)) {
+            <div>
+              @if (editForm.get('fullName')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let emailRef = editForm.get('email')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_email" jhiTranslate="supermarketApp.employee.email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
+            <div>
+              @if (editForm.get('email')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('email')?.errors?.pattern) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Email' }"
+                  >This field should follow pattern for Email.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_phone" jhiTranslate="supermarketApp.employee.phone">Phone</label>
+          <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
+        </div>
+
+        @let roleRef = editForm.get('role')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_role" jhiTranslate="supermarketApp.employee.role">Role</label>
+          <select class="form-control" name="role" formControlName="role" id="field_role" data-cy="role">
+            <option [ngValue]="null">{{ 'supermarketApp.EmployeeRole.null' | translate }}</option>
+            @for (employeeRole of employeeRoleValues; track $index) {
+              <option [value]="employeeRole">{{ 'supermarketApp.EmployeeRole.' + employeeRole | translate }}</option>
+            }
+          </select>
+          @if (roleRef.invalid && (roleRef.dirty || roleRef.touched)) {
+            <div>
+              @if (editForm.get('role')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_hiredAt" jhiTranslate="supermarketApp.employee.hiredAt">Hired At</label>
+          <div class="input-group">
+            <input
+              id="field_hiredAt"
+              data-cy="hiredAt"
+              type="text"
+              class="form-control"
+              name="hiredAt"
+              ngbDatepicker
+              #hiredAtDp="ngbDatepicker"
+              formControlName="hiredAt"
+            />
+            <button type="button" class="btn btn-secondary" (click)="hiredAtDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        @let activeRef = editForm.get('active')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_active" jhiTranslate="supermarketApp.employee.active">Active</label>
+          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
+          @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
+            <div>
+              @if (editForm.get('active')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_user" jhiTranslate="supermarketApp.employee.user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            @for (userOption of usersSharedCollection; track $index) {
+              <option [ngValue]="userOption">{{ userOption.login }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_department" jhiTranslate="supermarketApp.employee.department">Department</label>
+          <select
+            class="form-control"
+            id="field_department"
+            data-cy="department"
+            name="department"
+            formControlName="department"
+            [compareWith]="compareDepartment"
+          >
+            @if (editForm.get(['department'])!.value === null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (departmentOption of departmentsSharedCollection; track $index) {
+              <option [ngValue]="departmentOption">{{ departmentOption.id }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['department'])!.invalid && (editForm.get(['department'])!.dirty || editForm.get(['department'])!.touched)) {
+          <div>
+            @if (editForm.get(['department'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

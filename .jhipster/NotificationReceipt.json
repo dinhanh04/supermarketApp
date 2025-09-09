@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20250909073607"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "isRead",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "deliveredAt",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "readAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "NotificationReceipt",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "notification",
+      "otherEntityRelationshipName": "receipts",
+      "relationshipName": "notification",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "notifications",
+      "relationshipName": "customer",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

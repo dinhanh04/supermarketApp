@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (promotion(); as promotionRef) {
+      <div>
+        <h2 data-cy="promotionDetailsHeading"><span jhiTranslate="supermarketApp.promotion.detail.title">Promotion</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ promotionRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.name">Name</span></dt>
+          <dd>
+            <span>{{ promotionRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.type">Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'supermarketApp.PromotionType.' + (promotionRef.type ?? 'null')">{{
+              { null: '', PERCENTAGE: 'PERCENTAGE', FIXED: 'FIXED' }[promotionRef.type ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.value">Value</span></dt>
+          <dd>
+            <span>{{ promotionRef.value }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.startAt">Start At</span></dt>
+          <dd>
+            <span>{{ promotionRef.startAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.endAt">End At</span></dt>
+          <dd>
+            <span>{{ promotionRef.endAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.active">Active</span></dt>
+          <dd>
+            <span>{{ promotionRef.active }}</span>
+          </dd>
+          <dt><span jhiTranslate="supermarketApp.promotion.products">Products</span></dt>
+          <dd>
+            @for (products of promotionRef.products; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/product', products.id, 'view']">{{ products?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/promotion', promotionRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

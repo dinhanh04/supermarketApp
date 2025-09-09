@@ -1,0 +1,246 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-product-heading" data-cy="ProductCreateUpdateHeading" jhiTranslate="supermarketApp.product.home.createOrEditLabel">
+        Create or edit a Product
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="supermarketApp.product.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let skuRef = editForm.get('sku')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_sku" jhiTranslate="supermarketApp.product.sku">Sku</label>
+          <input type="text" class="form-control" name="sku" id="field_sku" data-cy="sku" formControlName="sku" />
+          @if (skuRef.invalid && (skuRef.dirty || skuRef.touched)) {
+            <div>
+              @if (editForm.get('sku')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let nameRef = editForm.get('name')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="supermarketApp.product.name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+            <div>
+              @if (editForm.get('name')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description" jhiTranslate="supermarketApp.product.description">Description</label>
+          <textarea
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        @let priceRef = editForm.get('price')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_price" jhiTranslate="supermarketApp.product.price">Price</label>
+          <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
+          @if (priceRef.invalid && (priceRef.dirty || priceRef.touched)) {
+            <div>
+              @if (editForm.get('price')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('price')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                  >This field should be at least 0.</small
+                >
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('price')?.errors?.number" jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let costRef = editForm.get('cost')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_cost" jhiTranslate="supermarketApp.product.cost">Cost</label>
+          <input type="number" class="form-control" name="cost" id="field_cost" data-cy="cost" formControlName="cost" />
+          @if (costRef.invalid && (costRef.dirty || costRef.touched)) {
+            <div>
+              @if (editForm.get('cost')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                  >This field should be at least 0.</small
+                >
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('cost')?.errors?.number" jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let stockRef = editForm.get('stock')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_stock" jhiTranslate="supermarketApp.product.stock">Stock</label>
+          <input type="number" class="form-control" name="stock" id="field_stock" data-cy="stock" formControlName="stock" />
+          @if (stockRef.invalid && (stockRef.dirty || stockRef.touched)) {
+            <div>
+              @if (editForm.get('stock')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('stock')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                  >This field should be at least 0.</small
+                >
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('stock')?.errors?.number" jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_imageUrl" jhiTranslate="supermarketApp.product.imageUrl">Image Url</label>
+          <input type="text" class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl" />
+        </div>
+
+        @let statusRef = editForm.get('status')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_status" jhiTranslate="supermarketApp.product.status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'supermarketApp.ProductStatus.null' | translate }}</option>
+            @for (productStatus of productStatusValues; track $index) {
+              <option [value]="productStatus">{{ 'supermarketApp.ProductStatus.' + productStatus | translate }}</option>
+            }
+          </select>
+          @if (statusRef.invalid && (statusRef.dirty || statusRef.touched)) {
+            <div>
+              @if (editForm.get('status')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdAt" jhiTranslate="supermarketApp.product.createdAt">Created At</label>
+          <div class="d-flex">
+            <input
+              id="field_createdAt"
+              data-cy="createdAt"
+              type="datetime-local"
+              class="form-control"
+              name="createdAt"
+              formControlName="createdAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_updatedAt" jhiTranslate="supermarketApp.product.updatedAt">Updated At</label>
+          <div class="d-flex">
+            <input
+              id="field_updatedAt"
+              data-cy="updatedAt"
+              type="datetime-local"
+              class="form-control"
+              name="updatedAt"
+              formControlName="updatedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_category" jhiTranslate="supermarketApp.product.category">Category</label>
+          <select
+            class="form-control"
+            id="field_category"
+            data-cy="category"
+            name="category"
+            formControlName="category"
+            [compareWith]="compareCategory"
+          >
+            @if (!editForm.get('category')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (categoryOption of categoriesSharedCollection; track $index) {
+              <option [ngValue]="categoryOption">{{ categoryOption.name }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['category'])!.invalid && (editForm.get(['category'])!.dirty || editForm.get(['category'])!.touched)) {
+          <div>
+            @if (editForm.get(['category'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_suppliedBy" jhiTranslate="supermarketApp.product.suppliedBy">Supplied By</label>
+          <select
+            class="form-control"
+            id="field_suppliedBy"
+            data-cy="suppliedBy"
+            name="suppliedBy"
+            formControlName="suppliedBy"
+            [compareWith]="compareSupplier"
+          >
+            <option [ngValue]="null"></option>
+            @for (supplierOption of suppliersSharedCollection; track $index) {
+              <option [ngValue]="supplierOption">{{ supplierOption.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="field_promotions" jhiTranslate="supermarketApp.product.promotions">Promotions</label>
+          <select
+            class="form-control"
+            id="field_promotions"
+            data-cy="promotions"
+            multiple
+            name="promotions"
+            formControlName="promotions"
+            [compareWith]="comparePromotion"
+          >
+            @for (promotionOption of promotionsSharedCollection; track $index) {
+              <option [ngValue]="promotionOption">{{ promotionOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

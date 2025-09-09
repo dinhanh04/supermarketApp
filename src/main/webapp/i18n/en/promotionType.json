@@ -1,0 +1,9 @@
+{
+  "supermarketApp": {
+    "PromotionType": {
+      "null": "",
+      "PERCENTAGE": "PERCENTAGE",
+      "FIXED": "FIXED"
+    }
+  }
+}

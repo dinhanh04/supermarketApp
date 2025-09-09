@@ -1,0 +1,10 @@
+{
+  "supermarketApp": {
+    "EmployeeRole": {
+      "null": "",
+      "STAFF": "STAFF",
+      "MANAGER": "MANAGER",
+      "ADMIN": "ADMIN"
+    }
+  }
+}

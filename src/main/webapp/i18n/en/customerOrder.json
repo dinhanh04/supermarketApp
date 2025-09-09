@@ -1,0 +1,33 @@
+{
+  "supermarketApp": {
+    "customerOrder": {
+      "home": {
+        "title": "Customer Orders",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Customer Order",
+        "createOrEditLabel": "Create or edit a Customer Order",
+        "notFound": "No Customer Orders found"
+      },
+      "created": "A new Customer Order is created with identifier {{ param }}",
+      "updated": "A Customer Order is updated with identifier {{ param }}",
+      "deleted": "A Customer Order is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Customer Order {{ id }}?"
+      },
+      "detail": {
+        "title": "Customer Order"
+      },
+      "id": "ID",
+      "code": "Code",
+      "orderDate": "Order Date",
+      "status": "Status",
+      "totalAmount": "Total Amount",
+      "paymentMethod": "Payment Method",
+      "shippingAddress": "Shipping Address",
+      "note": "Note",
+      "items": "Items",
+      "customer": "Customer",
+      "salesBy": "Sales By"
+    }
+  }
+}

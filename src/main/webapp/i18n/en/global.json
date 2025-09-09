@@ -8,7 +8,20 @@
       "entities": {
         "main": "Entities",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "adminAuthority": "Authority"
+        "customer": "Customer",
+        "address": "Address",
+        "department": "Department",
+        "employee": "Employee",
+        "supplier": "Supplier",
+        "category": "Category",
+        "product": "Product",
+        "promotion": "Promotion",
+        "customerOrder": "Customer Order",
+        "orderItem": "Order Item",
+        "review": "Review",
+        "notification": "Notification",
+        "notificationReceipt": "Notification Receipt",
+        "store": "Store"
       },
       "account": {
         "main": "Account",
