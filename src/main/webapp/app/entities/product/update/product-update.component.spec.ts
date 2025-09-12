@@ -8,6 +8,8 @@ import { ICategory } from 'app/entities/category/category.model';
 import { CategoryService } from 'app/entities/category/service/category.service';
 import { ISupplier } from 'app/entities/supplier/supplier.model';
 import { SupplierService } from 'app/entities/supplier/service/supplier.service';
+import { IStore } from 'app/entities/store/store.model';
+import { StoreService } from 'app/entities/store/service/store.service';
 import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { PromotionService } from 'app/entities/promotion/service/promotion.service';
 import { IProduct } from '../product.model';
@@ -24,6 +26,7 @@ describe('Product Management Update Component', () => {
   let productService: ProductService;
   let categoryService: CategoryService;
   let supplierService: SupplierService;
+  let storeService: StoreService;
   let promotionService: PromotionService;
 
   beforeEach(() => {
@@ -49,6 +52,7 @@ describe('Product Management Update Component', () => {
     productService = TestBed.inject(ProductService);
     categoryService = TestBed.inject(CategoryService);
     supplierService = TestBed.inject(SupplierService);
+    storeService = TestBed.inject(StoreService);
     promotionService = TestBed.inject(PromotionService);
 
     comp = fixture.componentInstance;
@@ -99,6 +103,28 @@ describe('Product Management Update Component', () => {
       expect(comp.suppliersSharedCollection).toEqual(expectedCollection);
     });
 
+    it('should call Store query and add missing value', () => {
+      const product: IProduct = { id: 11926 };
+      const store: IStore = { id: 2449 };
+      product.store = store;
+
+      const storeCollection: IStore[] = [{ id: 2449 }];
+      jest.spyOn(storeService, 'query').mockReturnValue(of(new HttpResponse({ body: storeCollection })));
+      const additionalStores = [store];
+      const expectedCollection: IStore[] = [...additionalStores, ...storeCollection];
+      jest.spyOn(storeService, 'addStoreToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ product });
+      comp.ngOnInit();
+
+      expect(storeService.query).toHaveBeenCalled();
+      expect(storeService.addStoreToCollectionIfMissing).toHaveBeenCalledWith(
+        storeCollection,
+        ...additionalStores.map(expect.objectContaining),
+      );
+      expect(comp.storesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('should call Promotion query and add missing value', () => {
       const product: IProduct = { id: 11926 };
       const promotions: IPromotion[] = [{ id: 30739 }];
@@ -127,6 +153,8 @@ describe('Product Management Update Component', () => {
       product.category = category;
       const suppliedBy: ISupplier = { id: 28889 };
       product.suppliedBy = suppliedBy;
+      const store: IStore = { id: 2449 };
+      product.store = store;
       const promotions: IPromotion = { id: 30739 };
       product.promotions = [promotions];
 
@@ -135,6 +163,7 @@ describe('Product Management Update Component', () => {
 
       expect(comp.categoriesSharedCollection).toContainEqual(category);
       expect(comp.suppliersSharedCollection).toContainEqual(suppliedBy);
+      expect(comp.storesSharedCollection).toContainEqual(store);
       expect(comp.promotionsSharedCollection).toContainEqual(promotions);
       expect(comp.product).toEqual(product);
     });
@@ -226,6 +255,16 @@ describe('Product Management Update Component', () => {
         jest.spyOn(supplierService, 'compareSupplier');
         comp.compareSupplier(entity, entity2);
         expect(supplierService.compareSupplier).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareStore', () => {
+      it('should forward to storeService', () => {
+        const entity = { id: 2449 };
+        const entity2 = { id: 28576 };
+        jest.spyOn(storeService, 'compareStore');
+        comp.compareStore(entity, entity2);
+        expect(storeService.compareStore).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

@@ -1,9 +1,12 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -62,6 +65,16 @@ public class Store implements Serializable {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "rel_store__suppliers",
+        joinColumns = @JoinColumn(name = "store_id"),
+        inverseJoinColumns = @JoinColumn(name = "suppliers_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "stores" }, allowSetters = true)
+    private Set<Supplier> suppliers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -219,6 +232,29 @@ public class Store implements Serializable {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Set<Supplier> getSuppliers() {
+        return this.suppliers;
+    }
+
+    public void setSuppliers(Set<Supplier> suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public Store suppliers(Set<Supplier> suppliers) {
+        this.setSuppliers(suppliers);
+        return this;
+    }
+
+    public Store addSuppliers(Supplier supplier) {
+        this.suppliers.add(supplier);
+        return this;
+    }
+
+    public Store removeSuppliers(Supplier supplier) {
+        this.suppliers.remove(supplier);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

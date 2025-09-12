@@ -59,6 +59,15 @@
           <dd>
             <span>{{ storeRef.updatedAt | formatMediumDatetime }}</span>
           </dd>
+          <dt><span jhiTranslate="supermarketApp.store.suppliers">Suppliers</span></dt>
+          <dd>
+            @for (suppliers of storeRef.suppliers; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/supplier', suppliers.id, 'view']">{{ suppliers?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

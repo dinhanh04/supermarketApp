@@ -35,7 +35,15 @@
   ],
   "name": "Supplier",
   "pagination": "pagination",
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "store",
+      "otherEntityRelationshipName": "suppliers",
+      "relationshipName": "stores",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-many"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceClass"
 }

@@ -4,6 +4,8 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, from, of } from 'rxjs';
 
+import { ISupplier } from 'app/entities/supplier/supplier.model';
+import { SupplierService } from 'app/entities/supplier/service/supplier.service';
 import { StoreService } from '../service/store.service';
 import { IStore } from '../store.model';
 import { StoreFormService } from './store-form.service';
@@ -16,6 +18,7 @@ describe('Store Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let storeFormService: StoreFormService;
   let storeService: StoreService;
+  let supplierService: SupplierService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,17 +41,43 @@ describe('Store Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     storeFormService = TestBed.inject(StoreFormService);
     storeService = TestBed.inject(StoreService);
+    supplierService = TestBed.inject(SupplierService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('should update editForm', () => {
+    it('should call Supplier query and add missing value', () => {
       const store: IStore = { id: 28576 };
+      const suppliers: ISupplier[] = [{ id: 28889 }];
+      store.suppliers = suppliers;
+
+      const supplierCollection: ISupplier[] = [{ id: 28889 }];
+      jest.spyOn(supplierService, 'query').mockReturnValue(of(new HttpResponse({ body: supplierCollection })));
+      const additionalSuppliers = [...suppliers];
+      const expectedCollection: ISupplier[] = [...additionalSuppliers, ...supplierCollection];
+      jest.spyOn(supplierService, 'addSupplierToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ store });
       comp.ngOnInit();
 
+      expect(supplierService.query).toHaveBeenCalled();
+      expect(supplierService.addSupplierToCollectionIfMissing).toHaveBeenCalledWith(
+        supplierCollection,
+        ...additionalSuppliers.map(expect.objectContaining),
+      );
+      expect(comp.suppliersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('should update editForm', () => {
+      const store: IStore = { id: 28576 };
+      const suppliers: ISupplier = { id: 28889 };
+      store.suppliers = [suppliers];
+
+      activatedRoute.data = of({ store });
+      comp.ngOnInit();
+
+      expect(comp.suppliersSharedCollection).toContainEqual(suppliers);
       expect(comp.store).toEqual(store);
     });
   });
@@ -118,6 +147,18 @@ describe('Store Management Update Component', () => {
       expect(storeService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareSupplier', () => {
+      it('should forward to supplierService', () => {
+        const entity = { id: 28889 };
+        const entity2 = { id: 5063 };
+        jest.spyOn(supplierService, 'compareSupplier');
+        comp.compareSupplier(entity, entity2);
+        expect(supplierService.compareSupplier).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

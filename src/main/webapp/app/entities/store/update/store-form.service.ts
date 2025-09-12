@@ -28,7 +28,7 @@ type StoreFormRawValue = FormValueOf<IStore>;
 
 type NewStoreFormRawValue = FormValueOf<NewStore>;
 
-type StoreFormDefaults = Pick<NewStore, 'id' | 'createdAt' | 'updatedAt'>;
+type StoreFormDefaults = Pick<NewStore, 'id' | 'createdAt' | 'updatedAt' | 'suppliers'>;
 
 type StoreFormGroupContent = {
   id: FormControl<StoreFormRawValue['id'] | NewStore['id']>;
@@ -43,6 +43,7 @@ type StoreFormGroupContent = {
   openingHours: FormControl<StoreFormRawValue['openingHours']>;
   createdAt: FormControl<StoreFormRawValue['createdAt']>;
   updatedAt: FormControl<StoreFormRawValue['updatedAt']>;
+  suppliers: FormControl<StoreFormRawValue['suppliers']>;
 };
 
 export type StoreFormGroup = FormGroup<StoreFormGroupContent>;
@@ -85,6 +86,7 @@ export class StoreFormService {
       openingHours: new FormControl(storeRawValue.openingHours),
       createdAt: new FormControl(storeRawValue.createdAt),
       updatedAt: new FormControl(storeRawValue.updatedAt),
+      suppliers: new FormControl(storeRawValue.suppliers ?? []),
     });
   }
 
@@ -109,6 +111,7 @@ export class StoreFormService {
       id: null,
       createdAt: currentTime,
       updatedAt: currentTime,
+      suppliers: [],
     };
   }
 
@@ -127,6 +130,7 @@ export class StoreFormService {
       ...store,
       createdAt: store.createdAt ? store.createdAt.format(DATE_TIME_FORMAT) : undefined,
       updatedAt: store.updatedAt ? store.updatedAt.format(DATE_TIME_FORMAT) : undefined,
+      suppliers: store.suppliers ?? [],
     };
   }
 }

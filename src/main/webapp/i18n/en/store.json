@@ -28,7 +28,8 @@
       "country": "Country",
       "openingHours": "Opening Hours",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
+      "updatedAt": "Updated At",
+      "suppliers": "Suppliers"
     }
   }
 }

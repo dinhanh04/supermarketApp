@@ -197,6 +197,25 @@
             }
           </select>
         </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_store" jhiTranslate="supermarketApp.customerOrder.store">Store</label>
+          <select class="form-control" id="field_store" data-cy="store" name="store" formControlName="store" [compareWith]="compareStore">
+            @if (!editForm.get('store')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (storeOption of storesSharedCollection; track $index) {
+              <option [ngValue]="storeOption">{{ storeOption.name }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['store'])!.invalid && (editForm.get(['store'])!.dirty || editForm.get(['store'])!.touched)) {
+          <div>
+            @if (editForm.get(['store'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
       </div>
 
       <div>

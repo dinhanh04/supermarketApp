@@ -3,10 +3,12 @@ package com.mycompany.myapp.service.mapper;
 import com.mycompany.myapp.domain.Category;
 import com.mycompany.myapp.domain.Product;
 import com.mycompany.myapp.domain.Promotion;
+import com.mycompany.myapp.domain.Store;
 import com.mycompany.myapp.domain.Supplier;
 import com.mycompany.myapp.service.dto.CategoryDTO;
 import com.mycompany.myapp.service.dto.ProductDTO;
 import com.mycompany.myapp.service.dto.PromotionDTO;
+import com.mycompany.myapp.service.dto.StoreDTO;
 import com.mycompany.myapp.service.dto.SupplierDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ import org.mapstruct.*;
 public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
     @Mapping(target = "category", source = "category", qualifiedByName = "categoryName")
     @Mapping(target = "suppliedBy", source = "suppliedBy", qualifiedByName = "supplierName")
+    @Mapping(target = "store", source = "store", qualifiedByName = "storeName")
     @Mapping(target = "promotions", source = "promotions", qualifiedByName = "promotionIdSet")
     ProductDTO toDto(Product s);
 
@@ -37,6 +40,12 @@ public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     SupplierDTO toDtoSupplierName(Supplier supplier);
+
+    @Named("storeName")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    StoreDTO toDtoStoreName(Store store);
 
     @Named("promotionId")
     @BeanMapping(ignoreByDefault = true)

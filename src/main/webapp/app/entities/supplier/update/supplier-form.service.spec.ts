@@ -26,6 +26,7 @@ describe('Supplier Form Service', () => {
             contactPhone: expect.any(Object),
             taxCode: expect.any(Object),
             addressText: expect.any(Object),
+            stores: expect.any(Object),
           }),
         );
       });
@@ -42,6 +43,7 @@ describe('Supplier Form Service', () => {
             contactPhone: expect.any(Object),
             taxCode: expect.any(Object),
             addressText: expect.any(Object),
+            stores: expect.any(Object),
           }),
         );
       });

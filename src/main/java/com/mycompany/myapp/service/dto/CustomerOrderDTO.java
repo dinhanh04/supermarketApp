@@ -41,6 +41,9 @@ public class CustomerOrderDTO implements Serializable {
 
     private EmployeeDTO salesBy;
 
+    @NotNull
+    private StoreDTO store;
+
     public Long getId() {
         return id;
     }
@@ -121,6 +124,14 @@ public class CustomerOrderDTO implements Serializable {
         this.salesBy = salesBy;
     }
 
+    public StoreDTO getStore() {
+        return store;
+    }
+
+    public void setStore(StoreDTO store) {
+        this.store = store;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -156,6 +167,7 @@ public class CustomerOrderDTO implements Serializable {
             ", note='" + getNote() + "'" +
             ", customer=" + getCustomer() +
             ", salesBy=" + getSalesBy() +
+            ", store=" + getStore() +
             "}";
     }
 }

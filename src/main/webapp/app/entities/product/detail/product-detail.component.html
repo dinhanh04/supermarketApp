@@ -73,6 +73,14 @@
               </div>
             }
           </dd>
+          <dt><span jhiTranslate="supermarketApp.product.store">Store</span></dt>
+          <dd>
+            @if (product()!.store) {
+              <div>
+                <a [routerLink]="['/store', product()!.store?.id, 'view']">{{ productRef.store?.name }}</a>
+              </div>
+            }
+          </dd>
           <dt><span jhiTranslate="supermarketApp.product.promotions">Promotions</span></dt>
           <dd>
             @for (promotions of productRef.promotions; track $index; let last = $last) {

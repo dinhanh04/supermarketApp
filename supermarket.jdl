@@ -192,6 +192,22 @@ relationship OneToMany {
   Customer{notifications} to NotificationReceipt{customer required}
 }
 
+relationship ManyToMany {
+  Store{suppliers} to Supplier{stores}
+}
+
+
+// Product được bán tại một Store và do một Supplier cung cấp
+relationship ManyToOne {
+  Product{store(name) required} to Store,
+  Product{suppliedBy(name) required} to Supplier
+}
+
+// Đơn hàng thuộc một Store (để tính doanh thu theo cửa hàng)
+relationship ManyToOne {
+  CustomerOrder{store(name) required} to Store
+}
+
 // ---------- OPTIONAL PER-ENTITY OPTIONS ----------
 paginate Product with pagination
 paginate CustomerOrder with pagination
@@ -214,3 +230,6 @@ entity Store {
 dto Store with mapstruct
 service Store with serviceClass
 paginate Store with pagination
+
+
+

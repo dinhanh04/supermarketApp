@@ -2,11 +2,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { ISupplier } from 'app/entities/supplier/supplier.model';
+import { SupplierService } from 'app/entities/supplier/service/supplier.service';
 import { IStore } from '../store.model';
 import { StoreService } from '../service/store.service';
 import { StoreFormGroup, StoreFormService } from './store-form.service';
@@ -20,12 +22,17 @@ export class StoreUpdateComponent implements OnInit {
   isSaving = false;
   store: IStore | null = null;
 
+  suppliersSharedCollection: ISupplier[] = [];
+
   protected storeService = inject(StoreService);
   protected storeFormService = inject(StoreFormService);
+  protected supplierService = inject(SupplierService);
   protected activatedRoute = inject(ActivatedRoute);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: StoreFormGroup = this.storeFormService.createStoreFormGroup();
+
+  compareSupplier = (o1: ISupplier | null, o2: ISupplier | null): boolean => this.supplierService.compareSupplier(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ store }) => {
@@ -33,6 +40,8 @@ export class StoreUpdateComponent implements OnInit {
       if (store) {
         this.updateForm(store);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -72,5 +81,22 @@ export class StoreUpdateComponent implements OnInit {
   protected updateForm(store: IStore): void {
     this.store = store;
     this.storeFormService.resetForm(this.editForm, store);
+
+    this.suppliersSharedCollection = this.supplierService.addSupplierToCollectionIfMissing<ISupplier>(
+      this.suppliersSharedCollection,
+      ...(store.suppliers ?? []),
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.supplierService
+      .query()
+      .pipe(map((res: HttpResponse<ISupplier[]>) => res.body ?? []))
+      .pipe(
+        map((suppliers: ISupplier[]) =>
+          this.supplierService.addSupplierToCollectionIfMissing<ISupplier>(suppliers, ...(this.store?.suppliers ?? [])),
+        ),
+      )
+      .subscribe((suppliers: ISupplier[]) => (this.suppliersSharedCollection = suppliers));
   }
 }

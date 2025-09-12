@@ -74,24 +74,20 @@ public class Product implements Serializable {
     @JsonIgnoreProperties(value = { "parent" }, allowSetters = true)
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "stores" }, allowSetters = true)
     private Supplier suppliedBy;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "suppliers" }, allowSetters = true)
+    private Store store;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "products")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "products" }, allowSetters = true)
     private Set<Promotion> promotions = new HashSet<>();
-
-    @Column(name = "store_id")
-    private String storeId;
-
-    public String getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
-    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -261,6 +257,19 @@ public class Product implements Serializable {
 
     public Product suppliedBy(Supplier supplier) {
         this.setSuppliedBy(supplier);
+        return this;
+    }
+
+    public Store getStore() {
+        return this.store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Product store(Store store) {
+        this.setStore(store);
         return this;
     }
 

@@ -89,6 +89,15 @@ public class StoreService {
     }
 
     /**
+     * Get all the stores with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<StoreDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return storeRepository.findAllWithEagerRelationships(pageable).map(storeMapper::toDto);
+    }
+
+    /**
      * Get one store by id.
      *
      * @param id the id of the entity.
@@ -97,7 +106,7 @@ public class StoreService {
     @Transactional(readOnly = true)
     public Optional<StoreDTO> findOne(Long id) {
         LOG.debug("Request to get Store : {}", id);
-        return storeRepository.findById(id).map(storeMapper::toDto);
+        return storeRepository.findOneWithEagerRelationships(id).map(storeMapper::toDto);
     }
 
     /**

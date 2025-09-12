@@ -23,5 +23,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="supplier"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="store_id"
+                                 baseTableName="product"
+                                 constraintName="fk_product__store_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="store"
+                                 />
     </changeSet>
 </databaseChangeLog>

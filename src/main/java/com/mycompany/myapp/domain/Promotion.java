@@ -62,7 +62,7 @@ public class Promotion implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "products_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "category", "suppliedBy", "promotions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "category", "suppliedBy", "store", "promotions" }, allowSetters = true)
     private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

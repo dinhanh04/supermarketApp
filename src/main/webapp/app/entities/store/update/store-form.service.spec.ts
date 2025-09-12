@@ -31,6 +31,7 @@ describe('Store Form Service', () => {
             openingHours: expect.any(Object),
             createdAt: expect.any(Object),
             updatedAt: expect.any(Object),
+            suppliers: expect.any(Object),
           }),
         );
       });
@@ -52,6 +53,7 @@ describe('Store Form Service', () => {
             openingHours: expect.any(Object),
             createdAt: expect.any(Object),
             updatedAt: expect.any(Object),
+            suppliers: expect.any(Object),
           }),
         );
       });

@@ -3,7 +3,9 @@ package com.mycompany.myapp.service.dto;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.Store} entity.
@@ -40,6 +42,8 @@ public class StoreDTO implements Serializable {
     private Instant createdAt;
 
     private Instant updatedAt;
+
+    private Set<SupplierDTO> suppliers = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -137,6 +141,14 @@ public class StoreDTO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public Set<SupplierDTO> getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Set<SupplierDTO> suppliers) {
+        this.suppliers = suppliers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -174,6 +186,7 @@ public class StoreDTO implements Serializable {
             ", openingHours='" + getOpeningHours() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", updatedAt='" + getUpdatedAt() + "'" +
+            ", suppliers=" + getSuppliers() +
             "}";
     }
 }

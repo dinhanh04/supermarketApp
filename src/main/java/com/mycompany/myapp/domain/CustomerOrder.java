@@ -73,6 +73,11 @@ public class CustomerOrder implements Serializable {
     @JsonIgnoreProperties(value = { "user", "department" }, allowSetters = true)
     private Employee salesBy;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "suppliers" }, allowSetters = true)
+    private Store store;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -233,6 +238,19 @@ public class CustomerOrder implements Serializable {
 
     public CustomerOrder salesBy(Employee employee) {
         this.setSalesBy(employee);
+        return this;
+    }
+
+    public Store getStore() {
+        return this.store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public CustomerOrder store(Store store) {
+        this.setStore(store);
         return this;
     }
 

@@ -48,7 +48,7 @@ public class Review implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "category", "suppliedBy", "promotions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "category", "suppliedBy", "store", "promotions" }, allowSetters = true)
     private Product product;
 
     @ManyToOne(optional = false)

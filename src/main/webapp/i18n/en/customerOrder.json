@@ -27,7 +27,8 @@
       "note": "Note",
       "items": "Items",
       "customer": "Customer",
-      "salesBy": "Sales By"
+      "salesBy": "Sales By",
+      "store": "Store"
     }
   }
 }

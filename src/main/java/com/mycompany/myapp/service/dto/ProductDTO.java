@@ -50,13 +50,13 @@ public class ProductDTO implements Serializable {
     @NotNull
     private CategoryDTO category;
 
+    @NotNull
     private SupplierDTO suppliedBy;
 
-    private Set<PromotionDTO> promotions = new HashSet<>();
-
+    @NotNull
     private StoreDTO store;
 
-    private Long storeId;
+    private Set<PromotionDTO> promotions = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -162,6 +162,14 @@ public class ProductDTO implements Serializable {
         this.suppliedBy = suppliedBy;
     }
 
+    public StoreDTO getStore() {
+        return store;
+    }
+
+    public void setStore(StoreDTO store) {
+        this.store = store;
+    }
+
     public Set<PromotionDTO> getPromotions() {
         return promotions;
     }
@@ -208,6 +216,7 @@ public class ProductDTO implements Serializable {
             ", updatedAt='" + getUpdatedAt() + "'" +
             ", category=" + getCategory() +
             ", suppliedBy=" + getSuppliedBy() +
+            ", store=" + getStore() +
             ", promotions=" + getPromotions() +
             "}";
     }

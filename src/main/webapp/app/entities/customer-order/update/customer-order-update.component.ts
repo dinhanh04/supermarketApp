@@ -11,6 +11,8 @@ import { ICustomer } from 'app/entities/customer/customer.model';
 import { CustomerService } from 'app/entities/customer/service/customer.service';
 import { IEmployee } from 'app/entities/employee/employee.model';
 import { EmployeeService } from 'app/entities/employee/service/employee.service';
+import { IStore } from 'app/entities/store/store.model';
+import { StoreService } from 'app/entities/store/service/store.service';
 import { OrderStatus } from 'app/entities/enumerations/order-status.model';
 import { PaymentMethod } from 'app/entities/enumerations/payment-method.model';
 import { CustomerOrderService } from '../service/customer-order.service';
@@ -30,11 +32,13 @@ export class CustomerOrderUpdateComponent implements OnInit {
 
   customersSharedCollection: ICustomer[] = [];
   employeesSharedCollection: IEmployee[] = [];
+  storesSharedCollection: IStore[] = [];
 
   protected customerOrderService = inject(CustomerOrderService);
   protected customerOrderFormService = inject(CustomerOrderFormService);
   protected customerService = inject(CustomerService);
   protected employeeService = inject(EmployeeService);
+  protected storeService = inject(StoreService);
   protected activatedRoute = inject(ActivatedRoute);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -43,6 +47,8 @@ export class CustomerOrderUpdateComponent implements OnInit {
   compareCustomer = (o1: ICustomer | null, o2: ICustomer | null): boolean => this.customerService.compareCustomer(o1, o2);
 
   compareEmployee = (o1: IEmployee | null, o2: IEmployee | null): boolean => this.employeeService.compareEmployee(o1, o2);
+
+  compareStore = (o1: IStore | null, o2: IStore | null): boolean => this.storeService.compareStore(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ customerOrder }) => {
@@ -100,6 +106,7 @@ export class CustomerOrderUpdateComponent implements OnInit {
       this.employeesSharedCollection,
       customerOrder.salesBy,
     );
+    this.storesSharedCollection = this.storeService.addStoreToCollectionIfMissing<IStore>(this.storesSharedCollection, customerOrder.store);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -122,5 +129,11 @@ export class CustomerOrderUpdateComponent implements OnInit {
         ),
       )
       .subscribe((employees: IEmployee[]) => (this.employeesSharedCollection = employees));
+
+    this.storeService
+      .query()
+      .pipe(map((res: HttpResponse<IStore[]>) => res.body ?? []))
+      .pipe(map((stores: IStore[]) => this.storeService.addStoreToCollectionIfMissing<IStore>(stores, this.customerOrder?.store)))
+      .subscribe((stores: IStore[]) => (this.storesSharedCollection = stores));
   }
 }

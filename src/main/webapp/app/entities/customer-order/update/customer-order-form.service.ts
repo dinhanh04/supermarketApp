@@ -40,6 +40,7 @@ type CustomerOrderFormGroupContent = {
   note: FormControl<CustomerOrderFormRawValue['note']>;
   customer: FormControl<CustomerOrderFormRawValue['customer']>;
   salesBy: FormControl<CustomerOrderFormRawValue['salesBy']>;
+  store: FormControl<CustomerOrderFormRawValue['store']>;
 };
 
 export type CustomerOrderFormGroup = FormGroup<CustomerOrderFormGroupContent>;
@@ -80,6 +81,9 @@ export class CustomerOrderFormService {
         validators: [Validators.required],
       }),
       salesBy: new FormControl(customerOrderRawValue.salesBy),
+      store: new FormControl(customerOrderRawValue.store, {
+        validators: [Validators.required],
+      }),
     });
   }
 

@@ -106,6 +106,7 @@ export class StoreComponent implements OnInit {
     const queryObject: any = {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
+      eagerload: true,
       sort: this.sortService.buildSortParam(this.sortState()),
     };
     return this.storeService.query(queryObject).pipe(tap(() => (this.isLoading = false)));

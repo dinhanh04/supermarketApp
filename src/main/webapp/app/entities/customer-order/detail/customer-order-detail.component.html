@@ -73,6 +73,14 @@
               </div>
             }
           </dd>
+          <dt><span jhiTranslate="supermarketApp.customerOrder.store">Store</span></dt>
+          <dd>
+            @if (customerOrder()!.store) {
+              <div>
+                <a [routerLink]="['/store', customerOrder()!.store?.id, 'view']">{{ customerOrderRef.store?.name }}</a>
+              </div>
+            }
+          </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -39,6 +39,15 @@
           <dd>
             <span>{{ supplierRef.addressText }}</span>
           </dd>
+          <dt><span jhiTranslate="supermarketApp.supplier.stores">Stores</span></dt>
+          <dd>
+            @for (stores of supplierRef.stores; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/store', stores.id, 'view']">{{ stores?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

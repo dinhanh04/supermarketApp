@@ -1,6 +1,7 @@
 import dayjs from 'dayjs/esm';
 import { ICustomer } from 'app/entities/customer/customer.model';
 import { IEmployee } from 'app/entities/employee/employee.model';
+import { IStore } from 'app/entities/store/store.model';
 import { OrderStatus } from 'app/entities/enumerations/order-status.model';
 import { PaymentMethod } from 'app/entities/enumerations/payment-method.model';
 
@@ -15,6 +16,7 @@ export interface ICustomerOrder {
   note?: string | null;
   customer?: Pick<ICustomer, 'id' | 'code'> | null;
   salesBy?: Pick<IEmployee, 'id' | 'fullName'> | null;
+  store?: Pick<IStore, 'id' | 'name'> | null;
 }
 
 export type NewCustomerOrder = Omit<ICustomerOrder, 'id'> & { id: null };

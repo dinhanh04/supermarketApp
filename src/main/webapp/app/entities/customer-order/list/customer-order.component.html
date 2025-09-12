@@ -101,6 +101,12 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="store.name">
+              <div class="d-flex">
+                <span jhiTranslate="supermarketApp.customerOrder.store">Store</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -146,6 +152,13 @@
                 @if (customerOrder.salesBy) {
                   <div>
                     <a [routerLink]="['/employee', customerOrder.salesBy.id, 'view']">{{ customerOrder.salesBy.fullName }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (customerOrder.store) {
+                  <div>
+                    <a [routerLink]="['/store', customerOrder.store.id, 'view']">{{ customerOrder.store.name }}</a>
                   </div>
                 }
               </td>

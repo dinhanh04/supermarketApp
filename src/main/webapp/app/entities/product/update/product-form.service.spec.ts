@@ -32,6 +32,7 @@ describe('Product Form Service', () => {
             updatedAt: expect.any(Object),
             category: expect.any(Object),
             suppliedBy: expect.any(Object),
+            store: expect.any(Object),
             promotions: expect.any(Object),
           }),
         );
@@ -55,6 +56,7 @@ describe('Product Form Service', () => {
             updatedAt: expect.any(Object),
             category: expect.any(Object),
             suppliedBy: expect.any(Object),
+            store: expect.any(Object),
             promotions: expect.any(Object),
           }),
         );

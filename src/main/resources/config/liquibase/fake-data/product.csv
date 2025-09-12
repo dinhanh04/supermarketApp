@@ -1,11 +1,11 @@
-id;sku;name;description;price;cost;stock;image_url;status;created_at;updated_at;category_id
-1;eyeglasses bore;gosh yet complete;../fake-data/blob/hipster.txt;27486.83;28312.2;23343;once;OUT_OF_STOCK;2025-09-08T22:27:35;2025-09-08T11:52:59;1
-2;inside upside-down;unfit;../fake-data/blob/hipster.txt;2975.48;17217.5;11121;for ravioli lovingly;OUT_OF_STOCK;2025-09-09T06:23:34;2025-09-08T22:56:13;2
-3;disarm;or petal yum;../fake-data/blob/hipster.txt;30891.43;4003.51;17888;gadzooks free;ACTIVE;2025-09-08T16:39:06;2025-09-08T11:06:48;3
-4;absent usually drat;broadside stable upbeat;../fake-data/blob/hipster.txt;8253.95;8983.15;30246;even patiently;ACTIVE;2025-09-08T13:13:43;2025-09-08T12:58:02;4
-5;poorly;off;../fake-data/blob/hipster.txt;29540.35;17758.08;25917;appreciate;INACTIVE;2025-09-08T16:43:49;2025-09-08T09:40:11;5
-6;daily gently;likewise shadowy pro;../fake-data/blob/hipster.txt;27909.5;31956.86;13777;puny;ACTIVE;2025-09-08T14:22:11;2025-09-08T15:52:46;6
-7;bitter preclude;hastily;../fake-data/blob/hipster.txt;4815.96;23130.42;18088;netsuke mild;INACTIVE;2025-09-08T16:26:16;2025-09-08T14:10:50;7
-8;before;cinch owlishly merrily;../fake-data/blob/hipster.txt;19538.82;7593.29;6272;deafening alongside;ACTIVE;2025-09-09T07:28:36;2025-09-08T10:34:43;8
-9;readies;warmly sneaky;../fake-data/blob/hipster.txt;26251.02;15570.99;21516;aircraft reluctantly;ACTIVE;2025-09-09T06:56:22;2025-09-08T19:08:45;9
-10;aha gee duh;beyond;../fake-data/blob/hipster.txt;3998.98;15480.71;27495;season help;OUT_OF_STOCK;2025-09-09T00:44:15;2025-09-08T19:00:19;10
+id;sku;name;description;price;cost;stock;image_url;status;created_at;updated_at;category_id;supplied_by_id;store_id
+1;eyeglasses bore;gosh yet complete;../fake-data/blob/hipster.txt;27486.83;28312.2;23343;once;OUT_OF_STOCK;2025-09-08T22:27:35;2025-09-08T11:52:59;1;1;1
+2;inside upside-down;unfit;../fake-data/blob/hipster.txt;2975.48;17217.5;11121;for ravioli lovingly;OUT_OF_STOCK;2025-09-09T06:23:34;2025-09-08T22:56:13;2;2;2
+3;disarm;or petal yum;../fake-data/blob/hipster.txt;30891.43;4003.51;17888;gadzooks free;ACTIVE;2025-09-08T16:39:06;2025-09-08T11:06:48;3;3;3
+4;absent usually drat;broadside stable upbeat;../fake-data/blob/hipster.txt;8253.95;8983.15;30246;even patiently;ACTIVE;2025-09-08T13:13:43;2025-09-08T12:58:02;4;4;4
+5;poorly;off;../fake-data/blob/hipster.txt;29540.35;17758.08;25917;appreciate;INACTIVE;2025-09-08T16:43:49;2025-09-08T09:40:11;5;5;5
+6;daily gently;likewise shadowy pro;../fake-data/blob/hipster.txt;27909.5;31956.86;13777;puny;ACTIVE;2025-09-08T14:22:11;2025-09-08T15:52:46;6;6;6
+7;bitter preclude;hastily;../fake-data/blob/hipster.txt;4815.96;23130.42;18088;netsuke mild;INACTIVE;2025-09-08T16:26:16;2025-09-08T14:10:50;7;7;7
+8;before;cinch owlishly merrily;../fake-data/blob/hipster.txt;19538.82;7593.29;6272;deafening alongside;ACTIVE;2025-09-09T07:28:36;2025-09-08T10:34:43;8;8;8
+9;readies;warmly sneaky;../fake-data/blob/hipster.txt;26251.02;15570.99;21516;aircraft reluctantly;ACTIVE;2025-09-09T06:56:22;2025-09-08T19:08:45;9;9;9
+10;aha gee duh;beyond;../fake-data/blob/hipster.txt;3998.98;15480.71;27495;season help;OUT_OF_STOCK;2025-09-09T00:44:15;2025-09-08T19:00:19;10;10;10

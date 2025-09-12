@@ -139,12 +139,21 @@ public class StoreResource {
      * {@code GET  /stores} : get all the stores.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stores in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<StoreDTO>> getAllStores(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<StoreDTO>> getAllStores(
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
+    ) {
         LOG.debug("REST request to get a page of Stores");
-        Page<StoreDTO> page = storeService.findAll(pageable);
+        Page<StoreDTO> page;
+        if (eagerload) {
+            page = storeService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = storeService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

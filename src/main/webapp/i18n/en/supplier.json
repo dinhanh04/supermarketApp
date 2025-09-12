@@ -23,7 +23,8 @@
       "contactEmail": "Contact Email",
       "contactPhone": "Contact Phone",
       "taxCode": "Tax Code",
-      "addressText": "Address Text"
+      "addressText": "Address Text",
+      "stores": "Stores"
     }
   }
 }

@@ -5,7 +5,6 @@ import com.mycompany.myapp.domain.enumeration.EmployeeRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -63,28 +62,6 @@ public class Employee implements Serializable {
     @NotNull
     @JsonIgnoreProperties(value = { "employees" }, allowSetters = true)
     private Department department;
-
-    public BigDecimal getSalary() {
-        return salary;
-    }
-
-    public void setSalary(BigDecimal salary) {
-        this.salary = salary;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    @Column(name = "salary")
-    private BigDecimal salary;
-
-    @Column(length = 50, name = "address")
-    private String address;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 

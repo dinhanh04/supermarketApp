@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type SupplierFormGroupInput = ISupplier | PartialWithRequiredKeyOf<NewSupplier>;
 
-type SupplierFormDefaults = Pick<NewSupplier, 'id'>;
+type SupplierFormDefaults = Pick<NewSupplier, 'id' | 'stores'>;
 
 type SupplierFormGroupContent = {
   id: FormControl<ISupplier['id'] | NewSupplier['id']>;
@@ -24,6 +24,7 @@ type SupplierFormGroupContent = {
   contactPhone: FormControl<ISupplier['contactPhone']>;
   taxCode: FormControl<ISupplier['taxCode']>;
   addressText: FormControl<ISupplier['addressText']>;
+  stores: FormControl<ISupplier['stores']>;
 };
 
 export type SupplierFormGroup = FormGroup<SupplierFormGroupContent>;
@@ -53,6 +54,7 @@ export class SupplierFormService {
       contactPhone: new FormControl(supplierRawValue.contactPhone),
       taxCode: new FormControl(supplierRawValue.taxCode),
       addressText: new FormControl(supplierRawValue.addressText),
+      stores: new FormControl(supplierRawValue.stores ?? []),
     });
   }
 
@@ -73,6 +75,7 @@ export class SupplierFormService {
   private getFormDefaults(): SupplierFormDefaults {
     return {
       id: null,
+      stores: [],
     };
   }
 }

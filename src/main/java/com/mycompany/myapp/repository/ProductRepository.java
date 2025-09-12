@@ -27,14 +27,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     }
 
     @Query(
-        value = "select product from Product product left join fetch product.category left join fetch product.suppliedBy",
+        value = "select product from Product product left join fetch product.category left join fetch product.suppliedBy left join fetch product.store",
         countQuery = "select count(product) from Product product"
     )
     Page<Product> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select product from Product product left join fetch product.category left join fetch product.suppliedBy")
+    @Query(
+        "select product from Product product left join fetch product.category left join fetch product.suppliedBy left join fetch product.store"
+    )
     List<Product> findAllWithToOneRelationships();
 
-    @Query("select product from Product product left join fetch product.category left join fetch product.suppliedBy where product.id =:id")
+    @Query(
+        "select product from Product product left join fetch product.category left join fetch product.suppliedBy left join fetch product.store where product.id =:id"
+    )
     Optional<Product> findOneWithToOneRelationships(@Param("id") Long id);
 }

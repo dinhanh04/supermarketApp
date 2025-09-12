@@ -1,12 +1,8 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.EmployeeRepository;
 import com.mycompany.myapp.service.EmployeeService;
-import com.mycompany.myapp.service.UserService;
-import com.mycompany.myapp.service.dto.AdminUserDTO;
 import com.mycompany.myapp.service.dto.EmployeeDTO;
-import com.mycompany.myapp.service.mapper.UserMapper;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -38,8 +34,6 @@ public class EmployeeResource {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeResource.class);
 
     private static final String ENTITY_NAME = "employee";
-    private final UserService userService;
-    private final UserMapper userMapper;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -48,16 +42,9 @@ public class EmployeeResource {
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeResource(
-        EmployeeService employeeService,
-        EmployeeRepository employeeRepository,
-        UserService userService,
-        UserMapper userMapper
-    ) {
+    public EmployeeResource(EmployeeService employeeService, EmployeeRepository employeeRepository) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
-        this.userService = userService;
-        this.userMapper = userMapper;
     }
 
     /**
@@ -73,15 +60,6 @@ public class EmployeeResource {
         if (employeeDTO.getId() != null) {
             throw new BadRequestAlertException("A new employee cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
-        AdminUserDTO adminUserDTO = new AdminUserDTO();
-        adminUserDTO.setEmail(employeeDTO.getEmail());
-        adminUserDTO.setLogin(employeeDTO.getEmail());
-
-        User user = userService.registerUser(adminUserDTO, "123456");
-
-        employeeDTO.setUser(userMapper.toDtoLogin(user));
-
         employeeDTO = employeeService.save(employeeDTO);
         return ResponseEntity.created(new URI("/api/employees/" + employeeDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, employeeDTO.getId().toString()))

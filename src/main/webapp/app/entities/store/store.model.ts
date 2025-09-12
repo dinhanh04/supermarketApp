@@ -1,4 +1,5 @@
 import dayjs from 'dayjs/esm';
+import { ISupplier } from 'app/entities/supplier/supplier.model';
 
 export interface IStore {
   id: number;
@@ -13,6 +14,7 @@ export interface IStore {
   openingHours?: string | null;
   createdAt?: dayjs.Dayjs | null;
   updatedAt?: dayjs.Dayjs | null;
+  suppliers?: Pick<ISupplier, 'id'>[] | null;
 }
 
 export type NewStore = Omit<IStore, 'id'> & { id: null };

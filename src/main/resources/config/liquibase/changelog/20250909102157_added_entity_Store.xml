@@ -53,6 +53,20 @@
         <dropDefaultValue tableName="store" columnName="updated_at" columnDataType="${datetimeType}"/>
     </changeSet>
 
+    <changeSet id="20250909102157-1-relations" author="jhipster">
+
+        <createTable tableName="rel_store__suppliers">
+            <column name="suppliers_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="store_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="store_id, suppliers_id" tableName="rel_store__suppliers"/>
+    </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

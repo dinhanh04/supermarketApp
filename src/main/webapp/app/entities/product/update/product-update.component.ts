@@ -14,6 +14,8 @@ import { ICategory } from 'app/entities/category/category.model';
 import { CategoryService } from 'app/entities/category/service/category.service';
 import { ISupplier } from 'app/entities/supplier/supplier.model';
 import { SupplierService } from 'app/entities/supplier/service/supplier.service';
+import { IStore } from 'app/entities/store/store.model';
+import { StoreService } from 'app/entities/store/service/store.service';
 import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { PromotionService } from 'app/entities/promotion/service/promotion.service';
 import { ProductStatus } from 'app/entities/enumerations/product-status.model';
@@ -33,6 +35,7 @@ export class ProductUpdateComponent implements OnInit {
 
   categoriesSharedCollection: ICategory[] = [];
   suppliersSharedCollection: ISupplier[] = [];
+  storesSharedCollection: IStore[] = [];
   promotionsSharedCollection: IPromotion[] = [];
 
   protected dataUtils = inject(DataUtils);
@@ -41,6 +44,7 @@ export class ProductUpdateComponent implements OnInit {
   protected productFormService = inject(ProductFormService);
   protected categoryService = inject(CategoryService);
   protected supplierService = inject(SupplierService);
+  protected storeService = inject(StoreService);
   protected promotionService = inject(PromotionService);
   protected activatedRoute = inject(ActivatedRoute);
 
@@ -50,6 +54,8 @@ export class ProductUpdateComponent implements OnInit {
   compareCategory = (o1: ICategory | null, o2: ICategory | null): boolean => this.categoryService.compareCategory(o1, o2);
 
   compareSupplier = (o1: ISupplier | null, o2: ISupplier | null): boolean => this.supplierService.compareSupplier(o1, o2);
+
+  compareStore = (o1: IStore | null, o2: IStore | null): boolean => this.storeService.compareStore(o1, o2);
 
   comparePromotion = (o1: IPromotion | null, o2: IPromotion | null): boolean => this.promotionService.comparePromotion(o1, o2);
 
@@ -124,6 +130,7 @@ export class ProductUpdateComponent implements OnInit {
       this.suppliersSharedCollection,
       product.suppliedBy,
     );
+    this.storesSharedCollection = this.storeService.addStoreToCollectionIfMissing<IStore>(this.storesSharedCollection, product.store);
     this.promotionsSharedCollection = this.promotionService.addPromotionToCollectionIfMissing<IPromotion>(
       this.promotionsSharedCollection,
       ...(product.promotions ?? []),
@@ -150,6 +157,12 @@ export class ProductUpdateComponent implements OnInit {
         ),
       )
       .subscribe((suppliers: ISupplier[]) => (this.suppliersSharedCollection = suppliers));
+
+    this.storeService
+      .query()
+      .pipe(map((res: HttpResponse<IStore[]>) => res.body ?? []))
+      .pipe(map((stores: IStore[]) => this.storeService.addStoreToCollectionIfMissing<IStore>(stores, this.product?.store)))
+      .subscribe((stores: IStore[]) => (this.storesSharedCollection = stores));
 
     this.promotionService
       .query()

@@ -27,18 +27,18 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder, Lo
     }
 
     @Query(
-        value = "select customerOrder from CustomerOrder customerOrder left join fetch customerOrder.customer left join fetch customerOrder.salesBy",
+        value = "select customerOrder from CustomerOrder customerOrder left join fetch customerOrder.customer left join fetch customerOrder.salesBy left join fetch customerOrder.store",
         countQuery = "select count(customerOrder) from CustomerOrder customerOrder"
     )
     Page<CustomerOrder> findAllWithToOneRelationships(Pageable pageable);
 
     @Query(
-        "select customerOrder from CustomerOrder customerOrder left join fetch customerOrder.customer left join fetch customerOrder.salesBy"
+        "select customerOrder from CustomerOrder customerOrder left join fetch customerOrder.customer left join fetch customerOrder.salesBy left join fetch customerOrder.store"
     )
     List<CustomerOrder> findAllWithToOneRelationships();
 
     @Query(
-        "select customerOrder from CustomerOrder customerOrder left join fetch customerOrder.customer left join fetch customerOrder.salesBy where customerOrder.id =:id"
+        "select customerOrder from CustomerOrder customerOrder left join fetch customerOrder.customer left join fetch customerOrder.salesBy left join fetch customerOrder.store where customerOrder.id =:id"
     )
     Optional<CustomerOrder> findOneWithToOneRelationships(@Param("id") Long id);
 }

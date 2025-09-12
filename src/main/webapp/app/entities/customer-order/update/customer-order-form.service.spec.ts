@@ -29,6 +29,7 @@ describe('CustomerOrder Form Service', () => {
             note: expect.any(Object),
             customer: expect.any(Object),
             salesBy: expect.any(Object),
+            store: expect.any(Object),
           }),
         );
       });
@@ -48,6 +49,7 @@ describe('CustomerOrder Form Service', () => {
             note: expect.any(Object),
             customer: expect.any(Object),
             salesBy: expect.any(Object),
+            store: expect.any(Object),
           }),
         );
       });

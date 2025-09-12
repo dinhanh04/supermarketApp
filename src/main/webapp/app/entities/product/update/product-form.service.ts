@@ -44,6 +44,7 @@ type ProductFormGroupContent = {
   updatedAt: FormControl<ProductFormRawValue['updatedAt']>;
   category: FormControl<ProductFormRawValue['category']>;
   suppliedBy: FormControl<ProductFormRawValue['suppliedBy']>;
+  store: FormControl<ProductFormRawValue['store']>;
   promotions: FormControl<ProductFormRawValue['promotions']>;
 };
 
@@ -89,7 +90,12 @@ export class ProductFormService {
       category: new FormControl(productRawValue.category, {
         validators: [Validators.required],
       }),
-      suppliedBy: new FormControl(productRawValue.suppliedBy),
+      suppliedBy: new FormControl(productRawValue.suppliedBy, {
+        validators: [Validators.required],
+      }),
+      store: new FormControl(productRawValue.store, {
+        validators: [Validators.required],
+      }),
       promotions: new FormControl(productRawValue.promotions ?? []),
     });
   }

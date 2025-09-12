@@ -153,6 +153,23 @@
             />
           </div>
         </div>
+
+        <div class="mb-3">
+          <label for="field_suppliers" jhiTranslate="supermarketApp.store.suppliers">Suppliers</label>
+          <select
+            class="form-control"
+            id="field_suppliers"
+            data-cy="suppliers"
+            multiple
+            name="suppliers"
+            formControlName="suppliers"
+            [compareWith]="compareSupplier"
+          >
+            @for (supplierOption of suppliersSharedCollection; track $index) {
+              <option [ngValue]="supplierOption">{{ supplierOption.id }}</option>
+            }
+          </select>
+        </div>
       </div>
 
       <div>

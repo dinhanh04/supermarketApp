@@ -1,8 +1,11 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -42,6 +45,11 @@ public class Supplier implements Serializable {
 
     @Column(name = "address_text")
     private String addressText;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "suppliers")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "suppliers" }, allowSetters = true)
+    private Set<Store> stores = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -134,6 +142,37 @@ public class Supplier implements Serializable {
 
     public void setAddressText(String addressText) {
         this.addressText = addressText;
+    }
+
+    public Set<Store> getStores() {
+        return this.stores;
+    }
+
+    public void setStores(Set<Store> stores) {
+        if (this.stores != null) {
+            this.stores.forEach(i -> i.removeSuppliers(this));
+        }
+        if (stores != null) {
+            stores.forEach(i -> i.addSuppliers(this));
+        }
+        this.stores = stores;
+    }
+
+    public Supplier stores(Set<Store> stores) {
+        this.setStores(stores);
+        return this;
+    }
+
+    public Supplier addStores(Store store) {
+        this.stores.add(store);
+        store.getSuppliers().add(this);
+        return this;
+    }
+
+    public Supplier removeStores(Store store) {
+        this.stores.remove(store);
+        store.getSuppliers().remove(this);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

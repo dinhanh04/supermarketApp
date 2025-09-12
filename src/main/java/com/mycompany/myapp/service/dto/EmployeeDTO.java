@@ -3,7 +3,6 @@ package com.mycompany.myapp.service.dto;
 import com.mycompany.myapp.domain.enumeration.EmployeeRole;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -39,26 +38,6 @@ public class EmployeeDTO implements Serializable {
 
     @NotNull
     private DepartmentDTO department;
-
-    private BigDecimal salary;
-
-    private String address;
-
-    public BigDecimal getSalary() {
-        return salary;
-    }
-
-    public void setSalary(BigDecimal salary) {
-        this.salary = salary;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public Long getId() {
         return id;

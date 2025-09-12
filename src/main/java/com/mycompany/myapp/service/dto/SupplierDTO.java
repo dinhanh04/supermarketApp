@@ -2,7 +2,9 @@ package com.mycompany.myapp.service.dto;
 
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.Supplier} entity.
@@ -25,6 +27,8 @@ public class SupplierDTO implements Serializable {
     private String taxCode;
 
     private String addressText;
+
+    private Set<StoreDTO> stores = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -82,6 +86,14 @@ public class SupplierDTO implements Serializable {
         this.addressText = addressText;
     }
 
+    public Set<StoreDTO> getStores() {
+        return stores;
+    }
+
+    public void setStores(Set<StoreDTO> stores) {
+        this.stores = stores;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -114,6 +126,7 @@ public class SupplierDTO implements Serializable {
             ", contactPhone='" + getContactPhone() + "'" +
             ", taxCode='" + getTaxCode() + "'" +
             ", addressText='" + getAddressText() + "'" +
+            ", stores=" + getStores() +
             "}";
     }
 }

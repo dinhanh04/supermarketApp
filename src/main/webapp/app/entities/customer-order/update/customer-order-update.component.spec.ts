@@ -8,6 +8,8 @@ import { ICustomer } from 'app/entities/customer/customer.model';
 import { CustomerService } from 'app/entities/customer/service/customer.service';
 import { IEmployee } from 'app/entities/employee/employee.model';
 import { EmployeeService } from 'app/entities/employee/service/employee.service';
+import { IStore } from 'app/entities/store/store.model';
+import { StoreService } from 'app/entities/store/service/store.service';
 import { ICustomerOrder } from '../customer-order.model';
 import { CustomerOrderService } from '../service/customer-order.service';
 import { CustomerOrderFormService } from './customer-order-form.service';
@@ -22,6 +24,7 @@ describe('CustomerOrder Management Update Component', () => {
   let customerOrderService: CustomerOrderService;
   let customerService: CustomerService;
   let employeeService: EmployeeService;
+  let storeService: StoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +49,7 @@ describe('CustomerOrder Management Update Component', () => {
     customerOrderService = TestBed.inject(CustomerOrderService);
     customerService = TestBed.inject(CustomerService);
     employeeService = TestBed.inject(EmployeeService);
+    storeService = TestBed.inject(StoreService);
 
     comp = fixture.componentInstance;
   });
@@ -95,18 +99,43 @@ describe('CustomerOrder Management Update Component', () => {
       expect(comp.employeesSharedCollection).toEqual(expectedCollection);
     });
 
+    it('should call Store query and add missing value', () => {
+      const customerOrder: ICustomerOrder = { id: 9643 };
+      const store: IStore = { id: 2449 };
+      customerOrder.store = store;
+
+      const storeCollection: IStore[] = [{ id: 2449 }];
+      jest.spyOn(storeService, 'query').mockReturnValue(of(new HttpResponse({ body: storeCollection })));
+      const additionalStores = [store];
+      const expectedCollection: IStore[] = [...additionalStores, ...storeCollection];
+      jest.spyOn(storeService, 'addStoreToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ customerOrder });
+      comp.ngOnInit();
+
+      expect(storeService.query).toHaveBeenCalled();
+      expect(storeService.addStoreToCollectionIfMissing).toHaveBeenCalledWith(
+        storeCollection,
+        ...additionalStores.map(expect.objectContaining),
+      );
+      expect(comp.storesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('should update editForm', () => {
       const customerOrder: ICustomerOrder = { id: 9643 };
       const customer: ICustomer = { id: 26915 };
       customerOrder.customer = customer;
       const salesBy: IEmployee = { id: 1749 };
       customerOrder.salesBy = salesBy;
+      const store: IStore = { id: 2449 };
+      customerOrder.store = store;
 
       activatedRoute.data = of({ customerOrder });
       comp.ngOnInit();
 
       expect(comp.customersSharedCollection).toContainEqual(customer);
       expect(comp.employeesSharedCollection).toContainEqual(salesBy);
+      expect(comp.storesSharedCollection).toContainEqual(store);
       expect(comp.customerOrder).toEqual(customerOrder);
     });
   });
@@ -197,6 +226,16 @@ describe('CustomerOrder Management Update Component', () => {
         jest.spyOn(employeeService, 'compareEmployee');
         comp.compareEmployee(entity, entity2);
         expect(employeeService.compareEmployee).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareStore', () => {
+      it('should forward to storeService', () => {
+        const entity = { id: 2449 };
+        const entity2 = { id: 28576 };
+        jest.spyOn(storeService, 'compareStore');
+        comp.compareStore(entity, entity2);
+        expect(storeService.compareStore).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

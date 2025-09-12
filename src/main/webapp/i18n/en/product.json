@@ -30,6 +30,7 @@
       "updatedAt": "Updated At",
       "category": "Category",
       "suppliedBy": "Supplied By",
+      "store": "Store",
       "promotions": "Promotions"
     }
   }

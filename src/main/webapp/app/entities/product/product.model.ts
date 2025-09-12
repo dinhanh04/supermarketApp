@@ -1,6 +1,7 @@
 import dayjs from 'dayjs/esm';
 import { ICategory } from 'app/entities/category/category.model';
 import { ISupplier } from 'app/entities/supplier/supplier.model';
+import { IStore } from 'app/entities/store/store.model';
 import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { ProductStatus } from 'app/entities/enumerations/product-status.model';
 
@@ -18,6 +19,7 @@ export interface IProduct {
   updatedAt?: dayjs.Dayjs | null;
   category?: Pick<ICategory, 'id' | 'name'> | null;
   suppliedBy?: Pick<ISupplier, 'id' | 'name'> | null;
+  store?: Pick<IStore, 'id' | 'name'> | null;
   promotions?: Pick<IPromotion, 'id'>[] | null;
 }
 
