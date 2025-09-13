@@ -30,25 +30,20 @@ public class CustomerOrder implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
     @Column(name = "code", nullable = false)
     private String code;
 
-    @NotNull
     @Column(name = "order_date", nullable = false)
     private Instant orderDate;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private OrderStatus status;
 
-    @NotNull
     @DecimalMin(value = "0")
     @Column(name = "total_amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal totalAmount;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
@@ -65,7 +60,6 @@ public class CustomerOrder implements Serializable {
     private Set<OrderItem> items = new HashSet<>();
 
     @ManyToOne(optional = false)
-    @NotNull
     @JsonIgnoreProperties(value = { "user", "addresses", "notifications" }, allowSetters = true)
     private Customer customer;
 
@@ -74,7 +68,6 @@ public class CustomerOrder implements Serializable {
     private Employee salesBy;
 
     @ManyToOne(optional = false)
-    @NotNull
     @JsonIgnoreProperties(value = { "suppliers" }, allowSetters = true)
     private Store store;
 

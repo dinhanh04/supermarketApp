@@ -1,80 +1,37 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.Department;
-import com.mycompany.myapp.repository.DepartmentRepository;
 import com.mycompany.myapp.service.dto.DepartmentDTO;
-import com.mycompany.myapp.service.mapper.DepartmentMapper;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.mycompany.myapp.domain.Department}.
+ * Service Interface for managing {@link com.mycompany.myapp.domain.Department}.
  */
-@Service
-@Transactional
-public class DepartmentService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DepartmentService.class);
-
-    private final DepartmentRepository departmentRepository;
-
-    private final DepartmentMapper departmentMapper;
-
-    public DepartmentService(DepartmentRepository departmentRepository, DepartmentMapper departmentMapper) {
-        this.departmentRepository = departmentRepository;
-        this.departmentMapper = departmentMapper;
-    }
-
+public interface DepartmentService {
     /**
      * Save a department.
      *
      * @param departmentDTO the entity to save.
      * @return the persisted entity.
      */
-    public DepartmentDTO save(DepartmentDTO departmentDTO) {
-        LOG.debug("Request to save Department : {}", departmentDTO);
-        Department department = departmentMapper.toEntity(departmentDTO);
-        department = departmentRepository.save(department);
-        return departmentMapper.toDto(department);
-    }
+    DepartmentDTO save(DepartmentDTO departmentDTO);
 
     /**
-     * Update a department.
+     * Updates a department.
      *
-     * @param departmentDTO the entity to save.
+     * @param departmentDTO the entity to update.
      * @return the persisted entity.
      */
-    public DepartmentDTO update(DepartmentDTO departmentDTO) {
-        LOG.debug("Request to update Department : {}", departmentDTO);
-        Department department = departmentMapper.toEntity(departmentDTO);
-        department = departmentRepository.save(department);
-        return departmentMapper.toDto(department);
-    }
+    DepartmentDTO update(DepartmentDTO departmentDTO);
 
     /**
-     * Partially update a department.
+     * Partially updates a department.
      *
      * @param departmentDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<DepartmentDTO> partialUpdate(DepartmentDTO departmentDTO) {
-        LOG.debug("Request to partially update Department : {}", departmentDTO);
-
-        return departmentRepository
-            .findById(departmentDTO.getId())
-            .map(existingDepartment -> {
-                departmentMapper.partialUpdate(existingDepartment, departmentDTO);
-
-                return existingDepartment;
-            })
-            .map(departmentRepository::save)
-            .map(departmentMapper::toDto);
-    }
+    Optional<DepartmentDTO> partialUpdate(DepartmentDTO departmentDTO);
 
     /**
      * Get all the departments.
@@ -82,31 +39,20 @@ public class DepartmentService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
-    public Page<DepartmentDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Departments");
-        return departmentRepository.findAll(pageable).map(departmentMapper::toDto);
-    }
+    Page<DepartmentDTO> findAll(Pageable pageable);
 
     /**
-     * Get one department by id.
+     * Get the "id" department.
      *
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
-    public Optional<DepartmentDTO> findOne(Long id) {
-        LOG.debug("Request to get Department : {}", id);
-        return departmentRepository.findById(id).map(departmentMapper::toDto);
-    }
+    Optional<DepartmentDTO> findOne(Long id);
 
     /**
-     * Delete the department by id.
+     * Delete the "id" department.
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
-        LOG.debug("Request to delete Department : {}", id);
-        departmentRepository.deleteById(id);
-    }
+    void delete(Long id);
 }

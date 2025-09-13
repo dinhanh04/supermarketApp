@@ -69,7 +69,6 @@ public class Customer implements Serializable {
     private Instant updatedAt;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @NotNull
     @JoinColumn(unique = true)
     private User user;
 

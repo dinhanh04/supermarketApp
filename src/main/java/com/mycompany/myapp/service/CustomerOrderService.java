@@ -1,80 +1,37 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.CustomerOrder;
-import com.mycompany.myapp.repository.CustomerOrderRepository;
 import com.mycompany.myapp.service.dto.CustomerOrderDTO;
-import com.mycompany.myapp.service.mapper.CustomerOrderMapper;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.mycompany.myapp.domain.CustomerOrder}.
+ * Service Interface for managing {@link com.mycompany.myapp.domain.CustomerOrder}.
  */
-@Service
-@Transactional
-public class CustomerOrderService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerOrderService.class);
-
-    private final CustomerOrderRepository customerOrderRepository;
-
-    private final CustomerOrderMapper customerOrderMapper;
-
-    public CustomerOrderService(CustomerOrderRepository customerOrderRepository, CustomerOrderMapper customerOrderMapper) {
-        this.customerOrderRepository = customerOrderRepository;
-        this.customerOrderMapper = customerOrderMapper;
-    }
-
+public interface CustomerOrderService {
     /**
      * Save a customerOrder.
      *
      * @param customerOrderDTO the entity to save.
      * @return the persisted entity.
      */
-    public CustomerOrderDTO save(CustomerOrderDTO customerOrderDTO) {
-        LOG.debug("Request to save CustomerOrder : {}", customerOrderDTO);
-        CustomerOrder customerOrder = customerOrderMapper.toEntity(customerOrderDTO);
-        customerOrder = customerOrderRepository.save(customerOrder);
-        return customerOrderMapper.toDto(customerOrder);
-    }
+    CustomerOrderDTO save(CustomerOrderDTO customerOrderDTO);
 
     /**
-     * Update a customerOrder.
+     * Updates a customerOrder.
      *
-     * @param customerOrderDTO the entity to save.
+     * @param customerOrderDTO the entity to update.
      * @return the persisted entity.
      */
-    public CustomerOrderDTO update(CustomerOrderDTO customerOrderDTO) {
-        LOG.debug("Request to update CustomerOrder : {}", customerOrderDTO);
-        CustomerOrder customerOrder = customerOrderMapper.toEntity(customerOrderDTO);
-        customerOrder = customerOrderRepository.save(customerOrder);
-        return customerOrderMapper.toDto(customerOrder);
-    }
+    CustomerOrderDTO update(CustomerOrderDTO customerOrderDTO);
 
     /**
-     * Partially update a customerOrder.
+     * Partially updates a customerOrder.
      *
      * @param customerOrderDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<CustomerOrderDTO> partialUpdate(CustomerOrderDTO customerOrderDTO) {
-        LOG.debug("Request to partially update CustomerOrder : {}", customerOrderDTO);
-
-        return customerOrderRepository
-            .findById(customerOrderDTO.getId())
-            .map(existingCustomerOrder -> {
-                customerOrderMapper.partialUpdate(existingCustomerOrder, customerOrderDTO);
-
-                return existingCustomerOrder;
-            })
-            .map(customerOrderRepository::save)
-            .map(customerOrderMapper::toDto);
-    }
+    Optional<CustomerOrderDTO> partialUpdate(CustomerOrderDTO customerOrderDTO);
 
     /**
      * Get all the customerOrders.
@@ -82,40 +39,30 @@ public class CustomerOrderService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
-    public Page<CustomerOrderDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all CustomerOrders");
-        return customerOrderRepository.findAll(pageable).map(customerOrderMapper::toDto);
-    }
+    Page<CustomerOrderDTO> findAll(Pageable pageable);
 
     /**
      * Get all the customerOrders with eager load of many-to-many relationships.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    public Page<CustomerOrderDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return customerOrderRepository.findAllWithEagerRelationships(pageable).map(customerOrderMapper::toDto);
-    }
+    Page<CustomerOrderDTO> findAllWithEagerRelationships(Pageable pageable);
 
     /**
-     * Get one customerOrder by id.
+     * Get the "id" customerOrder.
      *
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
-    public Optional<CustomerOrderDTO> findOne(Long id) {
-        LOG.debug("Request to get CustomerOrder : {}", id);
-        return customerOrderRepository.findOneWithEagerRelationships(id).map(customerOrderMapper::toDto);
-    }
+    Optional<CustomerOrderDTO> findOne(Long id);
 
     /**
-     * Delete the customerOrder by id.
+     * Delete the "id" customerOrder.
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
-        LOG.debug("Request to delete CustomerOrder : {}", id);
-        customerOrderRepository.deleteById(id);
-    }
+    void delete(Long id);
+
+    CustomerOrderDTO createOrder(CustomerOrderDTO customerOrder);
 }

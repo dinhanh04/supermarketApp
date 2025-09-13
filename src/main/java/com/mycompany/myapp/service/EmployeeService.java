@@ -1,80 +1,37 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.Employee;
-import com.mycompany.myapp.repository.EmployeeRepository;
 import com.mycompany.myapp.service.dto.EmployeeDTO;
-import com.mycompany.myapp.service.mapper.EmployeeMapper;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.mycompany.myapp.domain.Employee}.
+ * Service Interface for managing {@link com.mycompany.myapp.domain.Employee}.
  */
-@Service
-@Transactional
-public class EmployeeService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
-
-    private final EmployeeRepository employeeRepository;
-
-    private final EmployeeMapper employeeMapper;
-
-    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
-        this.employeeRepository = employeeRepository;
-        this.employeeMapper = employeeMapper;
-    }
-
+public interface EmployeeService {
     /**
      * Save a employee.
      *
      * @param employeeDTO the entity to save.
      * @return the persisted entity.
      */
-    public EmployeeDTO save(EmployeeDTO employeeDTO) {
-        LOG.debug("Request to save Employee : {}", employeeDTO);
-        Employee employee = employeeMapper.toEntity(employeeDTO);
-        employee = employeeRepository.save(employee);
-        return employeeMapper.toDto(employee);
-    }
+    EmployeeDTO save(EmployeeDTO employeeDTO);
 
     /**
-     * Update a employee.
+     * Updates a employee.
      *
-     * @param employeeDTO the entity to save.
+     * @param employeeDTO the entity to update.
      * @return the persisted entity.
      */
-    public EmployeeDTO update(EmployeeDTO employeeDTO) {
-        LOG.debug("Request to update Employee : {}", employeeDTO);
-        Employee employee = employeeMapper.toEntity(employeeDTO);
-        employee = employeeRepository.save(employee);
-        return employeeMapper.toDto(employee);
-    }
+    EmployeeDTO update(EmployeeDTO employeeDTO);
 
     /**
-     * Partially update a employee.
+     * Partially updates a employee.
      *
      * @param employeeDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<EmployeeDTO> partialUpdate(EmployeeDTO employeeDTO) {
-        LOG.debug("Request to partially update Employee : {}", employeeDTO);
-
-        return employeeRepository
-            .findById(employeeDTO.getId())
-            .map(existingEmployee -> {
-                employeeMapper.partialUpdate(existingEmployee, employeeDTO);
-
-                return existingEmployee;
-            })
-            .map(employeeRepository::save)
-            .map(employeeMapper::toDto);
-    }
+    Optional<EmployeeDTO> partialUpdate(EmployeeDTO employeeDTO);
 
     /**
      * Get all the employees.
@@ -82,40 +39,28 @@ public class EmployeeService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
-    public Page<EmployeeDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Employees");
-        return employeeRepository.findAll(pageable).map(employeeMapper::toDto);
-    }
+    Page<EmployeeDTO> findAll(Pageable pageable);
 
     /**
      * Get all the employees with eager load of many-to-many relationships.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    public Page<EmployeeDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return employeeRepository.findAllWithEagerRelationships(pageable).map(employeeMapper::toDto);
-    }
+    Page<EmployeeDTO> findAllWithEagerRelationships(Pageable pageable);
 
     /**
-     * Get one employee by id.
+     * Get the "id" employee.
      *
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
-    public Optional<EmployeeDTO> findOne(Long id) {
-        LOG.debug("Request to get Employee : {}", id);
-        return employeeRepository.findOneWithEagerRelationships(id).map(employeeMapper::toDto);
-    }
+    Optional<EmployeeDTO> findOne(Long id);
 
     /**
-     * Delete the employee by id.
+     * Delete the "id" employee.
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
-        LOG.debug("Request to delete Employee : {}", id);
-        employeeRepository.deleteById(id);
-    }
+    void delete(Long id);
 }

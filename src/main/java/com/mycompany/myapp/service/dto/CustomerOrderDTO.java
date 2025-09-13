@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,33 +17,37 @@ public class CustomerOrderDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String code;
 
-    @NotNull
     private Instant orderDate;
 
-    @NotNull
     private OrderStatus status;
 
-    @NotNull
     @DecimalMin(value = "0")
     private BigDecimal totalAmount;
 
-    @NotNull
     private PaymentMethod paymentMethod;
 
     private String shippingAddress;
 
     private String note;
 
-    @NotNull
     private CustomerDTO customer;
 
     private EmployeeDTO salesBy;
 
     @NotNull
     private StoreDTO store;
+
+    private List<OrderItemDTO> orderItemDTOS;
+
+    public List<OrderItemDTO> getOrderItemDTOS() {
+        return orderItemDTOS;
+    }
+
+    public void setOrderItemDTOS(List<OrderItemDTO> orderItemDTOS) {
+        this.orderItemDTOS = orderItemDTOS;
+    }
 
     public Long getId() {
         return id;

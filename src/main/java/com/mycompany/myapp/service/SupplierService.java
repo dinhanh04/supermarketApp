@@ -1,80 +1,37 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.Supplier;
-import com.mycompany.myapp.repository.SupplierRepository;
 import com.mycompany.myapp.service.dto.SupplierDTO;
-import com.mycompany.myapp.service.mapper.SupplierMapper;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.mycompany.myapp.domain.Supplier}.
+ * Service Interface for managing {@link com.mycompany.myapp.domain.Supplier}.
  */
-@Service
-@Transactional
-public class SupplierService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SupplierService.class);
-
-    private final SupplierRepository supplierRepository;
-
-    private final SupplierMapper supplierMapper;
-
-    public SupplierService(SupplierRepository supplierRepository, SupplierMapper supplierMapper) {
-        this.supplierRepository = supplierRepository;
-        this.supplierMapper = supplierMapper;
-    }
-
+public interface SupplierService {
     /**
      * Save a supplier.
      *
      * @param supplierDTO the entity to save.
      * @return the persisted entity.
      */
-    public SupplierDTO save(SupplierDTO supplierDTO) {
-        LOG.debug("Request to save Supplier : {}", supplierDTO);
-        Supplier supplier = supplierMapper.toEntity(supplierDTO);
-        supplier = supplierRepository.save(supplier);
-        return supplierMapper.toDto(supplier);
-    }
+    SupplierDTO save(SupplierDTO supplierDTO);
 
     /**
-     * Update a supplier.
+     * Updates a supplier.
      *
-     * @param supplierDTO the entity to save.
+     * @param supplierDTO the entity to update.
      * @return the persisted entity.
      */
-    public SupplierDTO update(SupplierDTO supplierDTO) {
-        LOG.debug("Request to update Supplier : {}", supplierDTO);
-        Supplier supplier = supplierMapper.toEntity(supplierDTO);
-        supplier = supplierRepository.save(supplier);
-        return supplierMapper.toDto(supplier);
-    }
+    SupplierDTO update(SupplierDTO supplierDTO);
 
     /**
-     * Partially update a supplier.
+     * Partially updates a supplier.
      *
      * @param supplierDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<SupplierDTO> partialUpdate(SupplierDTO supplierDTO) {
-        LOG.debug("Request to partially update Supplier : {}", supplierDTO);
-
-        return supplierRepository
-            .findById(supplierDTO.getId())
-            .map(existingSupplier -> {
-                supplierMapper.partialUpdate(existingSupplier, supplierDTO);
-
-                return existingSupplier;
-            })
-            .map(supplierRepository::save)
-            .map(supplierMapper::toDto);
-    }
+    Optional<SupplierDTO> partialUpdate(SupplierDTO supplierDTO);
 
     /**
      * Get all the suppliers.
@@ -82,31 +39,20 @@ public class SupplierService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
-    public Page<SupplierDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Suppliers");
-        return supplierRepository.findAll(pageable).map(supplierMapper::toDto);
-    }
+    Page<SupplierDTO> findAll(Pageable pageable);
 
     /**
-     * Get one supplier by id.
+     * Get the "id" supplier.
      *
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
-    public Optional<SupplierDTO> findOne(Long id) {
-        LOG.debug("Request to get Supplier : {}", id);
-        return supplierRepository.findById(id).map(supplierMapper::toDto);
-    }
+    Optional<SupplierDTO> findOne(Long id);
 
     /**
-     * Delete the supplier by id.
+     * Delete the "id" supplier.
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
-        LOG.debug("Request to delete Supplier : {}", id);
-        supplierRepository.deleteById(id);
-    }
+    void delete(Long id);
 }

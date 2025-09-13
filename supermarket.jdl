@@ -1,7 +1,7 @@
 // ====== DOMAIN FOR RETAIL/SHOP PROJECT ======
 // All entities use DTO (mapstruct) + serviceClass + pagination
 dto * with mapstruct
-service * with serviceClass
+service * with serviceImpl
 paginate * with pagination
 
 // ---------- ENUMS ----------
@@ -228,7 +228,8 @@ entity Store {
 }
 
 dto Store with mapstruct
-service Store with serviceClass
+service Customer, Address, Department, Employee, Supplier, Category, Product, Promotion,
+        CustomerOrder, OrderItem, Review, Notification, NotificationReceipt, Store with serviceImpl
 paginate Store with pagination
 
 

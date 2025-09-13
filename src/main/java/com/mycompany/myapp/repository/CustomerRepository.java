@@ -1,7 +1,6 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.Customer;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -38,13 +37,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query("select customer from Customer customer left join fetch customer.user where customer.id =:id")
     Optional<Customer> findOneWithToOneRelationships(@Param("id") Long id);
-
-    @Query(
-        """
-          select coalesce(sum(c.totalAmount), 0)
-          from CustomerOrder c
-          where c.store.id = :storeId
-        """
-    )
-    BigDecimal sumRevenueByStore(@Param("storeId") Long storeId);
 }

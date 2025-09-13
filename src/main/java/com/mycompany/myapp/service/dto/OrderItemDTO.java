@@ -13,25 +13,20 @@ public class OrderItemDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     @Min(value = 1)
     private Integer quantity;
 
-    @NotNull
     @DecimalMin(value = "0")
     private BigDecimal unitPrice;
 
     @DecimalMin(value = "0")
     private BigDecimal discount;
 
-    @NotNull
     @DecimalMin(value = "0")
     private BigDecimal lineTotal;
 
-    @NotNull
     private ProductDTO product;
 
-    @NotNull
     private CustomerOrderDTO order;
 
     public Long getId() {

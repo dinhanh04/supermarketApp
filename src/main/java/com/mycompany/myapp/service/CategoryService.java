@@ -1,80 +1,37 @@
 package com.mycompany.myapp.service;
 
-import com.mycompany.myapp.domain.Category;
-import com.mycompany.myapp.repository.CategoryRepository;
 import com.mycompany.myapp.service.dto.CategoryDTO;
-import com.mycompany.myapp.service.mapper.CategoryMapper;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.mycompany.myapp.domain.Category}.
+ * Service Interface for managing {@link com.mycompany.myapp.domain.Category}.
  */
-@Service
-@Transactional
-public class CategoryService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CategoryService.class);
-
-    private final CategoryRepository categoryRepository;
-
-    private final CategoryMapper categoryMapper;
-
-    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
-        this.categoryRepository = categoryRepository;
-        this.categoryMapper = categoryMapper;
-    }
-
+public interface CategoryService {
     /**
      * Save a category.
      *
      * @param categoryDTO the entity to save.
      * @return the persisted entity.
      */
-    public CategoryDTO save(CategoryDTO categoryDTO) {
-        LOG.debug("Request to save Category : {}", categoryDTO);
-        Category category = categoryMapper.toEntity(categoryDTO);
-        category = categoryRepository.save(category);
-        return categoryMapper.toDto(category);
-    }
+    CategoryDTO save(CategoryDTO categoryDTO);
 
     /**
-     * Update a category.
+     * Updates a category.
      *
-     * @param categoryDTO the entity to save.
+     * @param categoryDTO the entity to update.
      * @return the persisted entity.
      */
-    public CategoryDTO update(CategoryDTO categoryDTO) {
-        LOG.debug("Request to update Category : {}", categoryDTO);
-        Category category = categoryMapper.toEntity(categoryDTO);
-        category = categoryRepository.save(category);
-        return categoryMapper.toDto(category);
-    }
+    CategoryDTO update(CategoryDTO categoryDTO);
 
     /**
-     * Partially update a category.
+     * Partially updates a category.
      *
      * @param categoryDTO the entity to update partially.
      * @return the persisted entity.
      */
-    public Optional<CategoryDTO> partialUpdate(CategoryDTO categoryDTO) {
-        LOG.debug("Request to partially update Category : {}", categoryDTO);
-
-        return categoryRepository
-            .findById(categoryDTO.getId())
-            .map(existingCategory -> {
-                categoryMapper.partialUpdate(existingCategory, categoryDTO);
-
-                return existingCategory;
-            })
-            .map(categoryRepository::save)
-            .map(categoryMapper::toDto);
-    }
+    Optional<CategoryDTO> partialUpdate(CategoryDTO categoryDTO);
 
     /**
      * Get all the categories.
@@ -82,40 +39,28 @@ public class CategoryService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Transactional(readOnly = true)
-    public Page<CategoryDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Categories");
-        return categoryRepository.findAll(pageable).map(categoryMapper::toDto);
-    }
+    Page<CategoryDTO> findAll(Pageable pageable);
 
     /**
      * Get all the categories with eager load of many-to-many relationships.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    public Page<CategoryDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return categoryRepository.findAllWithEagerRelationships(pageable).map(categoryMapper::toDto);
-    }
+    Page<CategoryDTO> findAllWithEagerRelationships(Pageable pageable);
 
     /**
-     * Get one category by id.
+     * Get the "id" category.
      *
      * @param id the id of the entity.
      * @return the entity.
      */
-    @Transactional(readOnly = true)
-    public Optional<CategoryDTO> findOne(Long id) {
-        LOG.debug("Request to get Category : {}", id);
-        return categoryRepository.findOneWithEagerRelationships(id).map(categoryMapper::toDto);
-    }
+    Optional<CategoryDTO> findOne(Long id);
 
     /**
-     * Delete the category by id.
+     * Delete the "id" category.
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
-        LOG.debug("Request to delete Category : {}", id);
-        categoryRepository.deleteById(id);
-    }
+    void delete(Long id);
 }
